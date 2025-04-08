@@ -4,10 +4,10 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
-import test from './views/LoginWebsite.vue'
+import test from './views/RegisterWebsite.vue'
 import router from './router'
 
-const app = createApp(test)
+const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)

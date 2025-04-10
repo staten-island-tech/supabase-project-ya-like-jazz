@@ -6,7 +6,7 @@
     <input type="submit" @click="signInWithEmail()" />
       <div>
     <h1> New User? </h1>
-    <router-link to="/Register"> Click here! </router-link>
+    <router-link to="/register"> Click here! </router-link>
     </div>
   </div>
 </template>

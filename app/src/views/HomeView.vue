@@ -4,6 +4,6 @@ import TheWelcome from '../components/TheWelcome.vue'
 
 <template>
   <main>
-    <router-link to="/register"> Hello </router-link>
+<h1> This is an h1 from HomeView </h1>
   </main>
 </template>

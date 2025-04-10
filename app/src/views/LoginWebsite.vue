@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container flex justify-center flex-flow">
     <h1>Hello</h1>
     <input type="text" v-model="username" />
     <input type="text" v-model="password" />

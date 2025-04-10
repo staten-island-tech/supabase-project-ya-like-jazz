@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { supabase } from '../lib/supabaseClient'
+import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 const username = ref('')
 const password = ref('')

@@ -1,15 +1,14 @@
 <template>
   <div>
-    <h1>Hello</h1>
+    <h1 class="text-red-500">Hello</h1>
     <input type="text" v-model="username" />
     <input type="text" v-model="password" />
     <input type="submit" @click="signUpNewUser()" />
-      <div>
-    <h1> Returning User? </h1>
-    <router-link to="/login"> Click here! </router-link>
+    <div>
+      <h2>Returning User?</h2>
+      <router-link to="/login"> Click here! </router-link>
     </div>
   </div>
-
 </template>
 
 <script setup lang="ts">
@@ -28,7 +27,6 @@ async function signUpNewUser() {
   })
   console.log(data, error)
 }
-
 </script>
 
 <style lang="scss" scoped></style>

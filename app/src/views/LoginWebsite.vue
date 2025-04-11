@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="container flex justify-center flex-flow">
     <h1>Hello</h1>
     <input type="text" v-model="username" />
     <input type="text" v-model="password" />
     <input type="submit" @click="signInWithEmail()" />
-      <div>
-    <h1> New User? </h1>
-    <router-link to="/register"> Click here! </router-link>
+    <div>
+      <h2>New User?</h2>
+      <router-link to="/Register"> Click here! </router-link>
     </div>
   </div>
 </template>
@@ -25,6 +25,4 @@ async function signInWithEmail() {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

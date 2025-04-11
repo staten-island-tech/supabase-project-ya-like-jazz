@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LoginWebsite from '../views/LoginWebsite.vue'
-import RegisterWebsite from '../views/RegisterWebsite.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -13,12 +12,17 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: LoginWebsite,
+      component: () => import('../views/LoginWebsite.vue'),
     },
     {
       path: '/register',
       name: 'register',
-      component: RegisterWebsite,
+      component: () => import('../views/RegisterWebsite.vue'),
+    },
+    {
+      path: '/emailverification',
+      name: 'emailverification',
+      component: () => import('../views/EmailVerification.vue'),
     },
     {
       path: '/about',

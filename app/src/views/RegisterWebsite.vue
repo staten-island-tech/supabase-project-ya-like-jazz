@@ -1,8 +1,21 @@
 <template>
   <div>
     <h1 class="text-red-500">Hello</h1>
-    <input type="text" v-model="username" />
-    <input type="text" v-model="password" />
+    <div class="flex justify-start flex-wrap">
+      <label for="username">Username:</label>
+      <input type="text" class="border-solid border-black" id="username" v-model="username" />
+    </div>
+
+    <div class="flex justify-start flex-wrap">
+      <label for="Password">Password:</label>
+      <input
+        type="text"
+        class="border-solid border-2 rounded-x border-black"
+        id="password"
+        v-model="password"
+      />
+    </div>
+
     <input type="submit" @click="signUpNewUser()" />
     <div>
       <h2>Returning User?</h2>

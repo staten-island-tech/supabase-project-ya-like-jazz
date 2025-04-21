@@ -27,6 +27,10 @@
 <script setup lang="ts">
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
+
+import Button from 'primevue/button'
+import Card from 'primevue/card'
+
 const username = ref('')
 const password = ref('')
 
@@ -34,9 +38,9 @@ async function signUpNewUser() {
   const { data, error } = await supabase.auth.signUp({
     email: username.value,
     password: password.value,
-  options: {
+    options: {
       emailRedirectTo: '/emailverification',
-    }, 
+    },
   })
   console.log(data, error)
 }

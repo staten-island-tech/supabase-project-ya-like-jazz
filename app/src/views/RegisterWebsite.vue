@@ -34,9 +34,9 @@ async function signUpNewUser() {
   const { data, error } = await supabase.auth.signUp({
     email: username.value,
     password: password.value,
-    /*     options: {
-      emailRedirectTo: 'https://example.com/welcome',
-    }, */
+  options: {
+      emailRedirectTo: '/emailverification',
+    }, 
   })
   console.log(data, error)
 }

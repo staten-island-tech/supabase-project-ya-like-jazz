@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <Card>
     <h1 class="text-red-500">Hello</h1>
     <div class="flex justify-start flex-wrap">
       <label for="username">Username:</label>
@@ -21,7 +21,7 @@
       <h2>Returning User?</h2>
       <router-link to="/login"> Click here! </router-link>
     </div>
-  </div>
+  </Card>
 </template>
 
 <script setup lang="ts">

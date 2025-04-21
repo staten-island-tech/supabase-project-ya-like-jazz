@@ -1,8 +1,8 @@
 <template>
   <div>
     <h1 class="text-red-500">Hello</h1>
-    <input type="text" v-model="username" />
-    <input type="text" v-model="password" />
+    <input type="text" class="border-solid border-4" v-model="username" />
+    <input type="text" class="border-solid border-4" v-model="password" />
     <input type="submit" @click="signUpNewUser()" />
     <div>
       <h2>Returning User?</h2>
@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router/index.ts'
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 const username = ref('')
@@ -21,9 +22,9 @@ async function signUpNewUser() {
   const { data, error } = await supabase.auth.signUp({
     email: username.value,
     password: password.value,
-  options: {
-      emailRedirectTo: '/emailverification',
-    }, 
+    options: {
+      emailRedirectTo: 'http://localhost:5173/login',
+    },
   })
   console.log(data, error)
 }

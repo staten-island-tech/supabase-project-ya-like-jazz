@@ -1,8 +1,8 @@
 export interface Identity {
-    username: string;   
-    password: string; 
-  }
+  username: string
+  password: string
+}
 export interface Instruments {
-    name: string;
-    id: number;
+  name: string
+  id: number
 }

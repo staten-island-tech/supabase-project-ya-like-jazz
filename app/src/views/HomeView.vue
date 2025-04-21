@@ -4,6 +4,6 @@ import TheWelcome from '../components/TheWelcome.vue'
 
 <template>
   <main>
-<h1> This is an h1 from HomeView </h1>
+    <h1>This is an h1 from HomeView</h1>
   </main>
 </template>

@@ -1,27 +1,32 @@
 <template>
-  <Card>
-    <h1 class="text-red-500">Hello</h1>
-    <div class="flex justify-start flex-wrap">
-      <label for="username">Username:</label>
-      <input type="text" class="border-solid border-black" id="username" v-model="username" />
-    </div>
+  <div
+    class="flex container justify-center justify-self-center border-solid border-2 rounded-xl object-contain border-black w-[20%]"
+  >
+    <div class="justify-self-center">
+      <h1 class="text-red-500">Register</h1>
+      <!--Need to make a card to put these input fields in-->
+      <div class="flex justify-start flex-wrap">
+        <label for="username">Username:</label>
+        <input type="text" class="border-solid border-black" id="username" v-model="username" />
+      </div>
 
-    <div class="flex justify-start flex-wrap">
-      <label for="Password">Password:</label>
-      <input
-        type="text"
-        class="border-solid border-2 rounded-x border-black"
-        id="password"
-        v-model="password"
-      />
-    </div>
+      <div class="flex justify-start flex-wrap">
+        <label for="Password">Password:</label>
+        <input
+          type="text"
+          class="border-solid border-2 rounded-xl border-black"
+          id="password"
+          v-model="password"
+        />
+      </div>
 
-    <input type="submit" @click="signUpNewUser()" />
-    <div>
-      <h2>Returning User?</h2>
-      <router-link to="/login"> Click here! </router-link>
+      <Button @click="signUpNewUser()">Submit</Button>
+      <div>
+        <h2>Returning User?</h2>
+        <router-link to="/login"> Click here! </router-link>
+      </div>
     </div>
-  </Card>
+  </div>
 </template>
 
 <script setup lang="ts">

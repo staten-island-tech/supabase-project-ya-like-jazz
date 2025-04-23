@@ -23,7 +23,7 @@ async function signUpNewUser() {
     email: username.value,
     password: password.value,
     options: {
-      emailRedirectTo: 'http://localhost:5173/login',
+      emailRedirectTo: 'http://localhost:5174/login',
     },
   })
   console.log(data, error)

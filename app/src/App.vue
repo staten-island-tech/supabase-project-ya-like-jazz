@@ -2,25 +2,52 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { computed, ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-import router  from '@/router/index'
-const verified = ref(true)
+import router from '@/router/index'
+import type { Credentials } from "@/types";
+const verified = ref(false)
 
-supabase.auth.onAuthStateChange((event, session) => {
-  if (event === 'SIGNED_IN') console.log('SIGNED_IN', session)
-  verified.value = true
-})
 async function signOut() {
   console.log(verified.value)
   const { error } = await supabase.auth.signOut()
-  verified.value = false
   console.log(error, verified.value)
-  router.push("/")
+
 }
 
-function checkStatus(){
+function checkStatus() {
   console.log(verified.value)
 }
 
+async function addtoTable(identity){
+  const { data, error } = await supabase
+  .from('credentials')
+  .upsert({ id: identity.id, email: identity.email}, { onConflict: 'handle' })
+  .select()
+} 
+
+const { data } = supabase.auth.onAuthStateChange((event, session) => {
+  console.log(event, session)
+  if (event === 'INITIAL_SESSION') {
+    // handle initial session
+  } else if (event === 'SIGNED_IN') {
+   verified.value = true
+  const identity = ref<Credentials[]>([
+    { id: `${session?.user.id}`, email: `${session?.user.email}`},
+  ])
+addtoTable(identity)
+  } else if (event === 'SIGNED_OUT') {
+  localStorage.clear()
+  sessionStorage.clear()
+  router.push('/')
+  verified.value = false
+  
+  } else if (event === 'PASSWORD_RECOVERY') {
+    // handle password recovery event
+  } else if (event === 'TOKEN_REFRESHED') {
+    // handle token refreshed event
+  } else if (event === 'USER_UPDATED') {
+    // handle user updated event
+  }
+})
 </script>
 
 <template>
@@ -28,8 +55,9 @@ function checkStatus(){
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/register"> Register </RouterLink>
-      <button v-if="verified" @click="signOut()"> Sign Out </button>
-      <button @click="checkStatus()"> CLick here </button>
+      <button v-if="verified" @click="signOut()">Sign Out</button>
+      <button @click="checkStatus()">CLick here</button>
+      <h1> {{ verified }}</h1>
     </nav>
   </header>
 

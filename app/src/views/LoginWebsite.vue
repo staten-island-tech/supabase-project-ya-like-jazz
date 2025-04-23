@@ -1,8 +1,8 @@
 <template>
   <div class="container flex justify-center flex-flow">
     <h1>Hello</h1>
-    <input type="text" v-model="username" />
-    <input type="text" v-model="password" />
+    <input type="text" class="border-solid border-2" v-model="username" />
+    <input type="text" class="border-solid border-2" v-model="password" />
     <input type="submit" @click="signInWithEmail()" />
     <div>
       <h2>New User?</h2>

@@ -1,35 +1,18 @@
 <template>
-  <div
-    class="flex container justify-center justify-self-center border-solid border-2 rounded-xl object-contain border-black w-[20%]"
-  >
-    <div class="justify-self-center">
-      <h1 class="text-red-500">Register</h1>
-      <!--Need to make a card to put these input fields in-->
-      <div class="flex justify-start flex-wrap">
-        <label for="username">Username:</label>
-        <input type="text" class="border-solid border-black" id="username" v-model="username" />
-      </div>
-
-      <div class="flex justify-start flex-wrap">
-        <label for="Password">Password:</label>
-        <input
-          type="text"
-          class="border-solid border-2 rounded-xl border-black"
-          id="password"
-          v-model="password"
-        />
-      </div>
-
-      <Button @click="signUpNewUser()">Submit</Button>
-      <div>
-        <h2>Returning User?</h2>
-        <router-link to="/login"> Click here! </router-link>
-      </div>
+  <div>
+    <h1 class="text-red-500">Hello</h1>
+    <input type="text" class="border-solid border-4" v-model="username" />
+    <input type="text" class="border-solid border-4" v-model="password" />
+    <input type="submit" @click="signUpNewUser()" />
+    <div>
+      <h2>Returning User?</h2>
+      <router-link to="/login"> Click here! </router-link>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import router from '@/router/index.ts'
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 
@@ -44,7 +27,7 @@ async function signUpNewUser() {
     email: username.value,
     password: password.value,
     options: {
-      emailRedirectTo: '/emailverification',
+      emailRedirectTo: 'http://localhost:5173/login',
     },
   })
   console.log(data, error)

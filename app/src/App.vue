@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { computed, ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-import router  from '@/router/index'
+import router from '@/router/index'
 const verified = ref(true)
 
 supabase.auth.onAuthStateChange((event, session) => {
@@ -14,13 +14,12 @@ async function signOut() {
   const { error } = await supabase.auth.signOut()
   verified.value = false
   console.log(error, verified.value)
-  router.push("/")
+  router.push('/')
 }
 
-function checkStatus(){
+function checkStatus() {
   console.log(verified.value)
 }
-
 </script>
 
 <template>
@@ -28,8 +27,8 @@ function checkStatus(){
     <nav>
       <RouterLink to="/">Home</RouterLink>
       <RouterLink to="/register"> Register </RouterLink>
-      <button v-if="verified" @click="signOut()"> Sign Out </button>
-      <button @click="checkStatus()"> CLick here </button>
+      <button v-if="verified" @click="signOut()">Sign Out</button>
+      <button @click="checkStatus()">CLick here</button>
     </nav>
   </header>
 

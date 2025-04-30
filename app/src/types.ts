@@ -1,6 +1,6 @@
 export interface Credentials {
   email: string
-  id: string
+  uid: string
 }
 export interface Instruments {
   name: string

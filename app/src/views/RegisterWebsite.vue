@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex container justify-center items-center justify-self-center border-solid border-2 border-black rounded-lg object-cover w-auto h-full"
+    class="flex container justify-center items-center justify-self-center border-solid border-2 border-black rounded-lg object-cover w-[20%] h-full"
   >
     <div class="object-contain p-2 m-2 justify-items-center">
       <h1 class="text-green-500 font-bold text-[20px]">Welcome!</h1>
@@ -21,10 +21,9 @@
           severity="success"
         ></Button>
       </div>
-      <div class="justify-center">
-        <router-link to="/login" class="text-green-500 hover:text-green-800 font-semibold"
-          >Go to Login page</router-link
-        >
+      <div>
+        <h2>Returning User?</h2>
+        <router-link to="/login"> Click here! </router-link>
       </div>
     </div>
   </div>
@@ -36,6 +35,7 @@ import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 
 import Button from 'primevue/button'
+import Card from 'primevue/card'
 
 const username = ref('')
 const password = ref('')
@@ -45,7 +45,7 @@ async function signUpNewUser() {
     email: username.value,
     password: password.value,
     options: {
-      emailRedirectTo: 'http://localhost:5174/login',
+      emailRedirectTo: 'http://localhost:5173/login',
     },
   })
   console.log(data, error)

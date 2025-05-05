@@ -28,7 +28,6 @@ async function signInWithEmail() {
 supabase.auth.onAuthStateChange((event) => {
   if (event === 'SIGNED_IN') router.push('/profile')
 })
-
 </script>
 
 <style lang="scss" scoped></style>

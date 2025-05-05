@@ -1,7 +1,14 @@
-<script setup lang="ts"></script>
-
 <template>
-  <main>
-    <h1>This is an h1 from HomeView</h1>
-  </main>
+  <div>
+    <h1>Counter: {{ counterStore.count }}</h1>
+    <h2>Double: {{ counterStore.doubleCount }}</h2>
+    <button @click="counterStore.increment">Increment</button>
+  </div>
 </template>
+
+<script setup lang="ts">
+import { useCounterStore } from '@/stores/counter'
+
+// Access the counter store
+const counterStore = useCounterStore()
+</script>

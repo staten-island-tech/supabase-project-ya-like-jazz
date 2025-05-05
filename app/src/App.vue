@@ -1,3 +1,17 @@
+<template>
+  <header>
+    <nav class="">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/register"> Register </RouterLink>
+      <button v-if="verified" @click="signOut()">Sign Out</button>
+      <button @click="checkStatus()">Check verification</button>
+      <h1>{{ verified }}</h1>
+    </nav>
+  </header>
+
+  <RouterView />
+</template>
+
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { computed, ref, type Ref } from 'vue'
@@ -42,7 +56,6 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
       { uid: `${session?.user.id}`, email: `${session?.user.email}` },
     ])
     addtoTable(identity.value[0].uid, identity.value[0].email)
-
   } else if (event === 'SIGNED_OUT') {
     localStorage.clear()
     sessionStorage.clear()
@@ -57,19 +70,5 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
   }
 })
 </script>
-
-<template>
-  <header>
-    <nav class="bg-">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/register"> Register </RouterLink>
-      <button v-if="verified" @click="signOut()">Sign Out</button>
-      <button @click="checkStatus()">Check verification</button>
-      <h1>{{ verified }}</h1>
-    </nav>
-  </header>
-
-  <RouterView />
-</template>
 
 <style scoped></style>

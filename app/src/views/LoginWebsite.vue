@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router/index.ts'
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 const username = ref('')
@@ -23,6 +24,10 @@ async function signInWithEmail() {
   })
   console.log(data, error)
 }
+
+supabase.auth.onAuthStateChange((event) => {
+  if (event === 'SIGNED_IN') router.push('/profile')
+})
 </script>
 
 <style lang="scss" scoped></style>

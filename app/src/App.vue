@@ -1,3 +1,17 @@
+<template>
+  <header>
+    <nav class="">
+      <RouterLink to="/">Home</RouterLink>
+      <RouterLink to="/register"> Register </RouterLink>
+      <button v-if="verified" @click="signOut()">Sign Out</button>
+      <button @click="checkStatus()">Check verification</button>
+      <h1>{{ verified }}</h1>
+    </nav>
+  </header>
+
+  <RouterView />
+</template>
+
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { computed, ref, type Ref } from 'vue'
@@ -18,14 +32,12 @@ function checkStatus() {
 }
 
 async function addtoTable(uid: string, email: string) {
-  const { data: profileData, error: profileError } = await supabase
-    .from('credentials')
-    .upsert([
-      {
-        uid: uid,
-        email: email 
-      }
-    ])
+  const { data: profileData, error: profileError } = await supabase.from('credentials').upsert([
+    {
+      uid: uid,
+      email: email,
+    },
+  ])
 
   if (profileError) {
     console.error('Error upserting into profiles:', profileError)
@@ -43,7 +55,7 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     const identity = ref<Credentials[]>([
       { uid: `${session?.user.id}`, email: `${session?.user.email}` },
     ])
-addtoTable(identity.value[0].uid, identity.value[0].email)
+    addtoTable(identity.value[0].uid, identity.value[0].email)
   } else if (event === 'SIGNED_OUT') {
     localStorage.clear()
     sessionStorage.clear()
@@ -58,19 +70,5 @@ addtoTable(identity.value[0].uid, identity.value[0].email)
   }
 })
 </script>
-
-<template>
-  <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/register"> Register </RouterLink>
-      <button v-if="verified" @click="signOut()">Sign Out</button>
-      <button @click="checkStatus()">Check verification</button>
-      <h1>{{ verified }}</h1>
-    </nav>
-  </header>
-
-  <RouterView />
-</template>
 
 <style scoped></style>

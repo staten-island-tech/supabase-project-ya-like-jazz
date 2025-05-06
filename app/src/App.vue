@@ -1,11 +1,17 @@
 <template>
   <header>
-    <nav class="">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/register"> Register </RouterLink>
-      <button v-if="verified" @click="signOut()">Sign Out</button>
-      <button @click="checkStatus()">Check verification</button>
-      <h1>{{ verified }}</h1>
+    <nav class="bg-color-2 h-16 p-2 flex justify-between items-center">
+      <div>
+        <RouterLink class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded"
+         to="/">Home</RouterLink>
+      </div>
+      <div class="flex justify-end">
+        <RouterLink v-if="!verified" class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded"
+       to="/register"> Register </RouterLink>
+       <RouterLink v-if="!verified" class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded ml-2"
+       to="/login"> Log In </RouterLink>
+        <button v-if="verified" @click="signOut()" class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded ml-2">Sign Out</button>
+      </div>
     </nav>
   </header>
 
@@ -27,9 +33,6 @@ async function signOut() {
   console.log(error, verified.value)
 }
 
-function checkStatus() {
-  console.log(verified.value)
-}
 
 async function addtoTable(uid: string, email: string) {
   const { data: profileData, error: profileError } = await supabase.from('credentials').upsert([

@@ -1,29 +1,70 @@
 <template>
+<div class="min-h-screen" @click="disableDropdown()">
   <header>
+    
     <nav class="bg-color-2 h-16 p-2 flex justify-between items-center">
       <div>
         <RouterLink class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded"
          to="/">Home</RouterLink>
       </div>
+
+
       <div class="flex justify-end">
         <RouterLink v-if="!verified" class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded"
        to="/register"> Register </RouterLink>
        <RouterLink v-if="!verified" class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded ml-2"
        to="/login"> Log In </RouterLink>
-        <button v-if="verified" @click="signOut()" class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded ml-2">Sign Out</button>
-      </div>
+
+
+
+    <div
+      class="py-2 px-4 ml-2 rounded-full bg-gray-500 flex items-center justify-center text-white text-xl font-bold cursor-pointer"
+      @click="toggleDropdown()" v-if="verified"
+    >
+      A
+    </div>
+
+    <div v-if="isDropdownOpen" class="absolute right-0 bg-color-2 text-white rounded-md shadow-lg mt-16 mr-4 w-40 p-2">
+      <ul>
+        <li class="py-1 px-2 hover:bg-color-3-hover cursor-pointer" @click="router.push('/profile')">Profile</li>
+        <li class="py-1 px-2 hover:bg-color-3-hover cursor-pointer" @click="router.push('/settings')">Settings</li>
+        <li class="py-1 px-2 hover:bg-color-3-hover cursor-pointer" @click="signOut()">Sign Out </li>
+      </ul>
+    </div>
+  </div>
+
     </nav>
   </header>
-
   <RouterView />
+</div>
+
+  
 </template>
 
 <script setup lang="ts">
+import { useRouter } from 'vue-router'
 import { RouterLink, RouterView } from 'vue-router'
 import { computed, ref, type Ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-import router from '@/router/index'
 import type { Credentials } from '@/types'
+import { list } from 'postcss'
+
+
+const router = useRouter()
+const isDropdownOpen = ref(false)
+const listener = ref(false)
+
+function toggleDropdown() {
+  isDropdownOpen.value = !isDropdownOpen.value
+  listener.value = true
+};
+
+/* function disableDropdown(){
+  if (listener.value === true){
+    isDropdownOpen.value = false
+    listener.value = false
+  }
+} */
 
 const verified = ref(false)
 
@@ -31,6 +72,7 @@ async function signOut() {
   console.log(verified.value)
   const { error } = await supabase.auth.signOut()
   console.log(error, verified.value)
+  router.push('/')
 }
 
 

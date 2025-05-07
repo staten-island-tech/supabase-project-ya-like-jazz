@@ -1,5 +1,5 @@
 <template>
-<div class="min-h-screen" @click="disableDropdown()">
+<div class="min-h-screen bg-color-1" @click="listener && listenerOff()">
   <header>
     
     <nav class="bg-color-2 h-16 p-2 flex justify-between items-center">
@@ -55,16 +55,23 @@ const isDropdownOpen = ref(false)
 const listener = ref(false)
 
 function toggleDropdown() {
+  if (listener.value === false){
   isDropdownOpen.value = !isDropdownOpen.value
-  listener.value = true
-};
+  let timeout
+  timeout = setTimeout(listenerOn, 1)
+} else if (listener.value === true){
+  isDropdownOpen.value = true
+}
+}
 
-/* function disableDropdown(){
-  if (listener.value === true){
-    isDropdownOpen.value = false
-    listener.value = false
-  }
-} */
+function listenerOn(){
+  listener.value = !listener.value
+}
+
+function listenerOff(){
+  listener.value = false
+  isDropdownOpen.value = false
+}
 
 const verified = ref(false)
 

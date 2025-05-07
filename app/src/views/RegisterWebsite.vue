@@ -26,7 +26,7 @@
         <router-link to="/login"> Click here! </router-link>
       </div>
   </div>
-  </div>
+    </div>
 </template>
 
 <script setup lang="ts">

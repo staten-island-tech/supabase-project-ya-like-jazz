@@ -1,15 +1,18 @@
 <template>
     <div>
         <div class="flex h-screen">
-      <div class="flex-1 p-5 bg-gray-100">
-        <h2 class="text-xl">Left Page</h2>
+      <div class="w-64 flex justify-end p-5 bg-gray-100">
         <SettingsTab />
         <p class="mt-2"></p>
       </div>
       <div class="flex-1 p-5 bg-indigo-100">
-        <h2 class="text-xl">Right Page</h2>
-        <h1 v-if="tab === 1"> Hello </h1>
-        <h1 v-if="tab === 2"> Hey </h1>
+        <div v-if="tab === 1">
+          <h2 class="text-xl">Right Page</h2>
+          <h1> Hello </h1>
+        </div>
+        <div v-if="tab === 2">
+          <h1> Hey </h1>
+        </div>
       </div>
     </div>
     </div>

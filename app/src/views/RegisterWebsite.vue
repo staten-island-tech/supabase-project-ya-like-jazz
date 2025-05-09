@@ -3,7 +3,7 @@
     class="flex container justify-center items-center justify-self-center border-solid border-2 border-black rounded-lg object-cover w-[20%] h-full"
   >
     <div class="object-contain p-2 m-2 justify-items-center">
-      <h1 class="text-green-500 font-bold text-[20px]">Welcome!</h1>
+      <h1 class="text-color-3 font-bold text-[20px]">Welcome!</h1>
       <div class="justify-start">
         <label for="username">Username </label>
         <input type="text" class="border-solid border-4" v-model="username" />
@@ -17,16 +17,16 @@
         <Button
           label="Register"
           @click="signUpNewUser()"
-          class="m-2 p-2"
-          severity="success"
+          
+          class="m-2 p-2 color-3"
         ></Button>
       </div>
       <div>
         <h2>Returning User?</h2>
         <router-link to="/login"> Click here! </router-link>
       </div>
-    </div>
   </div>
+    </div>
 </template>
 
 <script setup lang="ts">

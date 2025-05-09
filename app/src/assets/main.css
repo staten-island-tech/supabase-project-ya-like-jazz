@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.p-button.color-3 {
+    background-color: #7e45f1;
+    border: none;
+  }
+  
+.p-button.color-3:hover {
+    background-color: #6236ba !important;
+    border: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+      color-scheme: light !important;
+    }
+}

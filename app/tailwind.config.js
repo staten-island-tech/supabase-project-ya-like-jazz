@@ -7,7 +7,9 @@ export default {
         'color-1': '#ffffff',
         'color-2': '#222a4c',
         'color-3': '#7e45f1',
+        'color-3-hover': '#6236ba',
         'color-4': '#ffbf40',
+        'color-4-hover': '#feb420',
 
         'color-5': '#302c2c',
         'color-6': '#eaf1ed',
@@ -18,3 +20,5 @@ export default {
   },
   plugins: [],
 }
+
+// 0d122d

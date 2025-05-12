@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+[data-theme="default"] {
+  --color-1: #ffffff;
+  --color-2: #222a4c;
+  --color-3: #7e45f1;
+  --color-3-hover: #6236ba;
+  --color-4: #ffbf40;
+  --color-4-hover: #feb420;
+}
+
+[data-theme="chocolate"] {
+  --color-1: '#302c2c';
+  --color-2: '#eaf1ed';
+  --color-3: '#a39a9b';
+  --color-3-hover: '#603c40';
+  --color-4: '#603c40';
+  --color-4-hover: '#603c40';
+}
+
+
 .p-button.color-3 {
     background-color: #7e45f1;
     border: none;

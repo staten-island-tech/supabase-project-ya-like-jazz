@@ -1,44 +1,57 @@
 <template>
-<div :data-theme="currentTheme" class="min-h-screen bg-1" @click="listener && listenerOff()">
-  <header>
-    
-    <nav class="bg-2 h-16 p-2 flex justify-between items-center">
-      <div>
-        <RouterLink class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded"
-         to="/">Home</RouterLink>
-      </div>
+  <div :data-theme="currentTheme" class="min-h-screen bg-1" @click="listener && listenerOff()">
+    <header>
+      <nav class="bg-2 h-16 p-2 flex justify-between items-center">
+        <div>
+          <RouterLink class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded" to="/">Home</RouterLink>
+        </div>
 
+        <div class="flex justify-end">
+          <RouterLink
+            v-if="!verified"
+            class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded"
+            to="/register"
+          >
+            Register
+          </RouterLink>
+          <RouterLink
+            v-if="!verified"
+            class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded ml-2"
+            to="/login"
+          >
+            Log In
+          </RouterLink>
 
-      <div class="flex justify-end">
-        <RouterLink v-if="!verified" class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded"
-       to="/register"> Register </RouterLink>
-       <RouterLink v-if="!verified" class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded ml-2"
-       to="/login"> Log In </RouterLink>
+          <div
+            class="py-2 px-4 ml-2 rounded-full bg-gray-500 flex items-center justify-center text-white text-xl font-bold cursor-pointer"
+            @click="toggleDropdown()"
+            v-if="verified"
+          >
+            A
+          </div>
 
-
-
-    <div
-      class="py-2 px-4 ml-2 rounded-full bg-gray-500 flex items-center justify-center text-white text-xl font-bold cursor-pointer"
-      @click="toggleDropdown()" v-if="verified"
-    >
-      A
-    </div>
-
-    <div v-if="isDropdownOpen" class="absolute right-0 bg-2 text-white rounded-md shadow-lg mt-16 mr-4 w-40 p-2">
-      <ul>
-        <li class="py-1 px-2 hover:bg-hover cursor-pointer" @click="router.push('/profile')">Profile</li>
-        <li class="py-1 px-2 hover:bg-hover3 cursor-pointer" @click="router.push('/settings')">Settings</li>
-        <li class="py-1 px-2 hover:bg-hover3 cursor-pointer" @click="signOut()">Sign Out </li>
-      </ul>
-    </div>
+          <div
+            v-if="isDropdownOpen"
+            class="absolute right-0 bg-2 text-white rounded-md shadow-lg mt-16 mr-4 w-40 p-2"
+          >
+            <ul>
+              <li class="py-1 px-2 hover:bg-hover cursor-pointer" @click="router.push('/profile')">
+                Profile
+              </li>
+              <li
+                class="py-1 px-2 hover:bg-hover3 cursor-pointer"
+                @click="router.push('/settings')"
+              >
+                Settings
+              </li>
+              <li class="py-1 px-2 hover:bg-hover3 cursor-pointer" @click="signOut()">Sign Out</li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <RouterView />
   </div>
-
-    </nav>
-  </header>
-  <RouterView />
-</div>
-
-  
 </template>
 
 <script setup lang="ts">
@@ -48,32 +61,29 @@ import { computed, ref, type Ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import type { Credentials } from '@/types'
 import { list } from 'postcss'
+import { chooseTheme } from '@/stores/chooseTheme'
 
+const { currentTheme } = chooseTheme()
 
 const router = useRouter()
 const isDropdownOpen = ref(false)
 const listener = ref(false)
-const currentTheme = ref('default')
-
-const toggleTheme = () => {
-  currentTheme.value = currentTheme.value === 'light' ? 'dark' : 'light'
-}
 
 function toggleDropdown() {
-  if (listener.value === false){
-  isDropdownOpen.value = !isDropdownOpen.value
-  let timeout
-  timeout = setTimeout(listenerOn, 1)
-} else if (listener.value === true){
-  isDropdownOpen.value = true
-}
+  if (listener.value === false) {
+    isDropdownOpen.value = !isDropdownOpen.value
+    let timeout
+    timeout = setTimeout(listenerOn, 1)
+  } else if (listener.value === true) {
+    isDropdownOpen.value = true
+  }
 }
 
-function listenerOn(){
+function listenerOn() {
   listener.value = !listener.value
 }
 
-function listenerOff(){
+function listenerOff() {
   listener.value = false
   isDropdownOpen.value = false
 }
@@ -86,7 +96,6 @@ async function signOut() {
   console.log(error, verified.value)
   router.push('/')
 }
-
 
 async function addtoTable(uid: string, email: string) {
   const { data: profileData, error: profileError } = await supabase.from('credentials').upsert([

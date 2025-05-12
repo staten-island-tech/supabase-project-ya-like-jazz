@@ -14,19 +14,14 @@
       </div>
 
       <div>
-        <Button
-          label="Register"
-          @click="signUpNewUser()"
-          
-          class="m-2 p-2 color-3"
-        ></Button>
+        <Button label="Register" @click="signUpNewUser()" class="m-2 p-2 color-3"></Button>
       </div>
       <div>
         <h2>Returning User?</h2>
         <router-link to="/login"> Click here! </router-link>
       </div>
-  </div>
     </div>
+  </div>
 </template>
 
 <script setup lang="ts">

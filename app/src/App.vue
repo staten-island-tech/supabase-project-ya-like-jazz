@@ -1,5 +1,5 @@
 <template>
-  <div :data-theme="currentTheme" class="min-h-screen bg-1" @click="listener && listenerOff()">
+  <div :data-theme="themeStore.currentTheme" class="min-h-screen bg-1" @click="listener && listenerOff()">
     <header>
       <nav class="bg-2 h-16 p-2 flex justify-between items-center">
         <div>
@@ -61,9 +61,9 @@ import { computed, ref, type Ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import type { Credentials } from '@/types'
 import { list } from 'postcss'
-import { chooseTheme } from '@/stores/chooseTheme'
+import { useThemeStore } from '@/stores/chooseTheme'
 
-const { currentTheme } = chooseTheme()
+const themeStore = useThemeStore() 
 
 const router = useRouter()
 const isDropdownOpen = ref(false)

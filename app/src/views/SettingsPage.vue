@@ -7,7 +7,7 @@
       </div>
       <div class="flex-1 p-5">
         <div v-if="tab === 1">
-          <GeneralPage />
+          <GeneralSettings />
         </div>
         <div v-if="tab === 2">
           <h1>Hey</h1>
@@ -19,7 +19,7 @@
 
 <script setup>
 import SettingsTab from '@/components/SettingsTab.vue'
-import GeneralPage from '@/components/GeneralPage.vue'
+import GeneralSettings from '@/components/GeneralSettings.vue'
 import { useTab } from '@/stores/useTab'
 
 const { tab } = useTab()

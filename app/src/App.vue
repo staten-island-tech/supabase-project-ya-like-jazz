@@ -1,13 +1,13 @@
 <template>
-  <div class="min-h-screen bg-color-1" @click="listener && listenerOff()">
+  <div
+    :data-theme="currentTheme"
+    class="min-h-screen bg-color-1"
+    @click="listener && listenerOff()"
+  >
     <header>
-      <nav class="bg-color-2 h-16 p-2 flex justify-between items-center">
+      <nav class="bg-2 h-16 p-2 flex justify-between items-center">
         <div>
-          <RouterLink
-            class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded"
-            to="/"
-            >Home</RouterLink
-          >
+          <RouterLink class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded" to="/">Home</RouterLink>
         </div>
 
         <div class="flex justify-end">
@@ -18,6 +18,7 @@
           >
             Register
           </RouterLink>
+
           <RouterLink
             v-if="!verified"
             class="bg-color-3 hover:bg-color-3-hover text-color-1 py-2 px-4 rounded ml-2"
@@ -74,6 +75,11 @@ import { list } from 'postcss'
 const router = useRouter()
 const isDropdownOpen = ref(false)
 const listener = ref(false)
+const currentTheme = ref('default')
+
+const toggleTheme = () => {
+  currentTheme.value = currentTheme.value === 'light' ? 'dark' : 'light'
+}
 
 function toggleDropdown() {
   if (listener.value === false) {

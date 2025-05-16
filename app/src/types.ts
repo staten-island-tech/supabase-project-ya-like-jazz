@@ -7,6 +7,7 @@ export interface Instruments {
   id: number
 }
 
-export interface CheckLogin { // Try this with the state
+export interface CheckLogin {
+  // Try this with the state
   loggedIn: boolean
 }

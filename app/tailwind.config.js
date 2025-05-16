@@ -10,6 +10,8 @@ export default {
         4: 'var(--color-4)',
         hover3: 'var(--color-3-hover)',
         hover4: 'var(--color-4-hover)',
+        textcolor: 'var(--text-color)',
+        textcolor2: 'var(--text-color2)',
         /* 'color-1': '#ffffff',
         'color-2': '#222a4c',
         'color-3': '#7e45f1',

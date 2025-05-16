@@ -34,6 +34,11 @@ const router = createRouter({
       name: 'settings',
       component: () => import('../views/SettingsPage.vue'),
     },
+    {
+      path: '/play',
+      name: 'play',
+      component: () => import('../views/PlayPage.vue'),
+    },
   ],
 })
 

@@ -9,24 +9,41 @@
   --color-3-hover: #6236ba;
   --color-4: #ffbf40;
   --color-4-hover: #feb420;
+  --text-color: #ffffff;
+  --text-colo2: #000000;
 }
 
 [data-theme='pink'] {
   --color-1: #fcfffd;
   --color-2: #242e62;
   --color-3: #e92c84;
-  --color-3-hover: #e92c84;
+  --color-3-hover: #cc2e78;
   --color-4: #f590cb;
-  --color-4-hover: #f590cb;
+  --color-4-hover: #d390b7;
+  --text-color: #ffffff;
+  --text-color2: #000000;
 }
 
 [data-theme='blue'] {
   --color-1: #fdfafc;
   --color-2: #22283c;
   --color-3: #1b5af8;
-  --color-3-hover: #1b5af8;
+  --color-3-hover: #183889;
   --color-4: #8bcdff;
-  --color-4-hover: #8bcdff;
+  --color-4-hover: #b1ddff;
+  --text-color: #ffffff;
+  --text-color2: #000000;
+}
+
+[data-theme='desert'] {
+  --color-1: #30260c;
+  --color-2: #f0c51a;
+  --color-3: #f36823;
+  --color-3-hover: #c34507;
+  --color-4: #9c2f45;
+  --color-4-hover: #7c1f32;
+  --text-color: #000000;
+  --text-color2: #ffffff;
 }
 
 .p-button.color-3 {

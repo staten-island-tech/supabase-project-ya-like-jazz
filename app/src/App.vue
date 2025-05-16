@@ -1,29 +1,35 @@
 <template>
-  <div :data-theme="themeStore.currentTheme" class="min-h-screen bg-1" @click="listener && listenerOff()">
+  <div
+    :data-theme="themeStore.currentTheme"
+    class="min-h-screen bg-1"
+    @click="listener && listenerOff()"
+  >
     <header>
       <nav class="bg-2 h-16 p-2 flex justify-between items-center">
         <div>
-          <RouterLink class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded" to="/">Home</RouterLink>
+          <RouterLink class="bg-3 hover:bg-hover3 text-textcolor py-2 px-4 rounded" to="/"
+            >Home</RouterLink
+          >
         </div>
 
         <div class="flex justify-end">
           <RouterLink
             v-if="!verified"
-            class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded"
+            class="bg-3 hover:bg-hover3 text-textcolor py-2 px-4 rounded"
             to="/register"
           >
             Register
           </RouterLink>
           <RouterLink
             v-if="!verified"
-            class="bg-3 hover:bg-hover3 text-1 py-2 px-4 rounded ml-2"
+            class="bg-3 hover:bg-hover3 text-textcolor py-2 px-4 rounded ml-2"
             to="/login"
           >
             Log In
           </RouterLink>
 
           <div
-            class="py-2 px-4 ml-2 rounded-full bg-gray-500 flex items-center justify-center text-white text-xl font-bold cursor-pointer"
+            class="py-2 px-4 ml-2 rounded-full bg-gray-500 flex items-center justify-center text-textcolor text-xl font-bold cursor-pointer"
             @click="toggleDropdown()"
             v-if="verified"
           >
@@ -32,10 +38,10 @@
 
           <div
             v-if="isDropdownOpen"
-            class="absolute right-0 bg-2 text-white rounded-md shadow-lg mt-16 mr-4 w-40 p-2"
+            class="absolute right-0 bg-2 text-textcolor rounded-md shadow-lg mt-16 mr-4 w-40 p-2"
           >
             <ul>
-              <li class="py-1 px-2 hover:bg-hover cursor-pointer" @click="router.push('/profile')">
+              <li class="py-1 px-2 hover:bg-hover3 cursor-pointer" @click="router.push('/profile')">
                 Profile
               </li>
               <li
@@ -63,7 +69,7 @@ import type { Credentials } from '@/types'
 import { list } from 'postcss'
 import { useThemeStore } from '@/stores/chooseTheme'
 
-const themeStore = useThemeStore() 
+const themeStore = useThemeStore()
 
 const router = useRouter()
 const isDropdownOpen = ref(false)

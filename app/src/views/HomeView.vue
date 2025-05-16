@@ -1,8 +1,11 @@
 <template>
   <div>
-    <h1>Counter: {{ counterStore.count }}</h1>
-    <h2>Double: {{ counterStore.doubleCount }}</h2>
-    <button @click="counterStore.increment">Increment</button>
+    <h1 class="text-textcolor2">Counter: {{ counterStore.count }}</h1>
+    <h2 class="text-textcolor2">Double: {{ counterStore.doubleCount }}</h2>
+    <button class="text-textcolor2" @click="counterStore.increment">Increment</button>
+   <div>
+     <RouterLink to="/play"> Game </RouterLink>
+   </div>
   </div>
 </template>
 

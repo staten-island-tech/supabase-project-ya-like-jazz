@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-[data-theme="default"] {
+[data-theme='default'] {
   --color-1: #ffffff;
   --color-2: #222a4c;
   --color-3: #7e45f1;
@@ -11,27 +11,36 @@
   --color-4-hover: #feb420;
 }
 
-[data-theme="chocolate"] {
-  --color-1: '#302c2c';
-  --color-2: '#eaf1ed';
-  --color-3: '#a39a9b';
-  --color-3-hover: '#603c40';
-  --color-4: '#603c40';
-  --color-4-hover: '#603c40';
+[data-theme='pink'] {
+  --color-1: #fcfffd;
+  --color-2: #242e62;
+  --color-3: #e92c84;
+  --color-3-hover: #e92c84;
+  --color-4: #f590cb;
+  --color-4-hover: #f590cb;
+}
+
+[data-theme='blue'] {
+  --color-1: #fdfafc;
+  --color-2: #22283c;
+  --color-3: #1b5af8;
+  --color-3-hover: #1b5af8;
+  --color-4: #8bcdff;
+  --color-4-hover: #8bcdff;
 }
 
 .p-button.color-3 {
-    background-color: #7e45f1;
-    border: none;
-  }
-  
+  background-color: #7e45f1;
+  border: none;
+}
+
 .p-button.color-3:hover {
-    background-color: #6236ba !important;
-    border: none !important;
+  background-color: #6236ba !important;
+  border: none !important;
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-      color-scheme: light !important;
-    }
+  :root {
+    color-scheme: light !important;
+  }
 }

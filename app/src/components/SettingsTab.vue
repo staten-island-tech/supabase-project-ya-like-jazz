@@ -1,6 +1,6 @@
 <template>
   <div class="container w-20 flex justify-end">
-    <ul class="bg-color-2 h-fit p-6 rounded-lg">
+    <ul class="bg-2 h-fit p-6 rounded-lg">
       <li
         @click="changeTab(1)"
         class="cursor-pointer text-xl text-1 hover:bg-hover3 rounded-lg h-8 flex justify-end"

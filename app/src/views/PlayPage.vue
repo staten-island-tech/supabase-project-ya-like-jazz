@@ -47,7 +47,11 @@ async function getCard2() {
       throw new Error(res)
     } else {
       const data = await res.json()
-      console.log(data.piles)
+      console.log(data)
+      const data1 = data.piles.player.cards
+      data1.forEach (data1 => {
+        console.log(data1.code)
+      })
 /*     data.forEach(card => {
         console.log(data)
     }) */

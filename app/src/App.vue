@@ -68,8 +68,10 @@ import { supabase } from '@/lib/supabaseClient'
 import type { Credentials } from '@/types'
 import { list } from 'postcss'
 import { useThemeStore } from '@/stores/chooseTheme'
+import { useUserStore } from '@/stores/loggedin'
 
 const themeStore = useThemeStore()
+const userStore = useUserStore()
 
 const router = useRouter()
 const isDropdownOpen = ref(false)
@@ -97,10 +99,12 @@ function listenerOff() {
 const verified = ref(false)
 
 async function signOut() {
+  // Use the user store here
   console.log(verified.value)
   const { error } = await supabase.auth.signOut()
   console.log(error, verified.value)
   router.push('/')
+  userStore.logout()
 }
 
 async function addtoTable(uid: string, email: string) {

@@ -33,14 +33,19 @@
 import router from '@/router/index.ts'
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
-const username = ref('')
+import { useUserStore } from '../stores/loggedin.ts'
+
+const username = ref('') // Should convert this to TypeScript
 const password = ref('')
+const userStore = useUserStore()
+
 async function signInWithEmail() {
   const { data, error } = await supabase.auth.signInWithPassword({
     email: username.value,
     password: password.value,
   })
   console.log(data, error)
+  userStore.login()
 }
 
 supabase.auth.onAuthStateChange((event) => {

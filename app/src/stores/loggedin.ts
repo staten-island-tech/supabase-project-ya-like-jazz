@@ -20,6 +20,7 @@ export const useUserStore = defineStore('user', {
     ({
       loggedIn: false,
       userInfo: undefined,
+      user: null as Credentials | null,
       accessToken: undefined,
       isLoading: false,
       error: undefined,

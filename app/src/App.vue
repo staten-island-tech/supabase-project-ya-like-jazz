@@ -97,9 +97,9 @@ function listenerOff() {
 const verified = ref(false)
 
 async function signOut() {
-/*   console.log(verified.value) */
+  /*   console.log(verified.value) */
   const { error } = await supabase.auth.signOut()
-/*   console.log(error, verified.value) */
+  /*   console.log(error, verified.value) */
   router.push('/')
 }
 
@@ -115,11 +115,11 @@ async function addtoTable(uid: string, email: string) {
     console.error('Error upserting into profiles:', profileError)
     return
   }
-/*   console.log('Upserted profile:', profileData) */
+  /*   console.log('Upserted profile:', profileData) */
 }
 
 const { data } = supabase.auth.onAuthStateChange((event, session) => {
-/*   console.log(event, session) */
+  /*   console.log(event, session) */
   if (event === 'INITIAL_SESSION') {
     // handle initial session
   } else if (event === 'SIGNED_IN') {

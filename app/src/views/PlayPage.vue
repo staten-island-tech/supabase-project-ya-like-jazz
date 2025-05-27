@@ -1,18 +1,16 @@
 <template>
-    <div>
-<h1> Hello </h1>
-<button @click="getCard()"> Hi </button>
-<button @click="getCard1()"> Hi </button>
-<button @click="getCard2()"> Hi </button>
-    </div>
+  <div>
+    <h1>Hello</h1>
+    <button @click="getCard()">Hi</button>
+    <button @click="getCard1()">Hi</button>
+    <button @click="getCard2()">Hi</button>
+  </div>
 </template>
 
 <script setup>
 async function getCard() {
   try {
-    const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/draw/?count=52`,
-    )
+    const res = await fetch(`https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/draw/?count=52`)
     if (res.status > 200) {
       throw new Error(res)
     } else {
@@ -40,21 +38,16 @@ async function getCard1() {
 }
 async function getCard2() {
   try {
-    const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/pile/player/list/`,
-    )
+    const res = await fetch(`https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/pile/player/list/`)
     if (res.status > 200) {
       throw new Error(res)
     } else {
       const data = await res.json()
       console.log(data)
       const data1 = data.piles.player.cards
-      data1.forEach (data1 => {
+/*       data1.forEach((data1) => {
         console.log(data1.code)
-      })
-/*     data.forEach(card => {
-        console.log(data)
-    }) */
+      }) */
     }
   } catch (error) {
     alert(error)
@@ -63,9 +56,7 @@ async function getCard2() {
 
 async function endGame1() {
   try {
-    const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/pile/player/return/`,
-    )
+    const res = await fetch(`https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/pile/player/return/`)
     if (res.status > 200) {
       throw new Error(res)
     } else {
@@ -78,6 +69,4 @@ async function endGame1() {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

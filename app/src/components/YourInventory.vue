@@ -1,21 +1,53 @@
 <template>
   <div>
     <div></div>
-    <div class="flex flex-col items-center gap-2 w-full p-2 border-2">
+    <div
+      class="flex flex-col items-center gap-2 w-full p-2 border-2 opacity-30"
+      :class="{ 'opacity-100': isInArray }"
+    >
       <h1 class="text-lg font-semibold">{{ card.value }} OF {{ card.suit }}</h1>
       <img class="w-58 h-64" :src="card.image" />
     </div>
   </div>
 </template>
 
-
 <script setup>
 import { Card } from 'primevue'
-
+import { computed, onMounted, ref } from 'vue'
 const props = defineProps({
   card: Object,
 })
-const test = ["5S"]
+const test = ref([])
+  async function getCard2() {
+    try {
+      const res = await fetch(`https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/pile/player/list/`)
+      if (res.status > 200) {
+        throw new Error(res)
+      } else {
+        const data = await res.json()
+        const cards = data.piles.player.cards
+        saveToArray(cards)
+      }
+    } catch (error) {
+      alert("rjgtrhnfkmfldp;")
+    }
+  }
+
+function saveToArray(cards) {
+  cards.forEach((card) => {
+    test.value.push(card.code)
+  })
+
+}
+
+const isInArray = computed(() => {
+  return test.value.includes(props.card.code)
+})
+
+onMounted(() => {
+  getCard2()
+})
+
 </script>
 
 <style lang="scss" scoped></style>

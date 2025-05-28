@@ -2,10 +2,37 @@
   <div>
     <h1>Hello welcome to the profile</h1>
     <div>
+
       <h1>Your Cards</h1>
-      <div class="grid grid-cols-4 gap-4">
-        <YourInventory v-for="card in cards" :card="card" :key="card" />
+
+      <div> 
+        <h1> Aces </h1>
+          <div class="grid grid-cols-4 gap-4">
+            <YourInventory v-for="ace in aces" :card="ace" :key="ace.code" />
+          </div>
       </div>
+
+      <div>
+        <h1> Royal Family </h1>
+          <div class="grid grid-cols-3 gap-4">
+           <YourInventory v-for="royalCard in royalCards" :card="royalCard" :key="royalCard.code" />
+          </div>
+      </div>
+
+      <div>
+        <h1> 7-10 Family </h1>
+          <div class="grid grid-cols-4 gap-4">
+           <YourInventory v-for="book in books" :card="book" :key="book.code" />
+          </div>
+      </div>
+
+      <div>
+        <h1> 2-6 Family </h1>
+          <div class="grid grid-cols-4 gap-4">
+           <YourInventory v-for="tray in trays" :card="tray" :key="tray.code" />
+          </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -13,7 +40,11 @@
 <script setup>
 import YourInventory from '@/components/YourInventory.vue'
 import { ref } from 'vue'
-const cards = ref('')
+const aces = ref([])
+const royalCards = ref([])
+const books = ref([])
+const trays = ref([])
+const count = ref(0)
 async function getCard2(deck) {
   try {
     const res = await fetch(`https://deckofcardsapi.com/api/deck/${deck}/pile/player/list/`)
@@ -21,23 +52,36 @@ async function getCard2(deck) {
       throw new Error(res)
     } else {
       const data = await res.json()
-      console.log(data)
-      cards.value = data.piles.player.cards
-/*       cards.forEach((card) => {
-        console.log(card.code)
-      }) */
-      return { cards }
-      /*     data.forEach(card => {
-        console.log(data)
-    }) */
+    saveToArray(data)
+      return { data }
     }
   } catch (error) {
     alert(error)
   }
 }
-getCard2(deck)
-const deck = "gptcy4vs0tut"
 
+function saveToArray(data){
+  if (count.value === 0){
+    aces.value = data.piles.player.cards
+  } else if (count.value === 1){
+    royalCards.value = data.piles.player.cards
+  } else if (count.value === 2){
+    books.value = data.piles.player.cards
+  } else if (count.value === 3){
+    trays.value = data.piles.player.cards
+  }
+
+}
+
+async function test2() {
+  const decks = [ "n3fxmvtwhj6s", "touj381sc2u6", "xbm4zi4te6bu", "gptcy4vs0tut"]
+  for (const deck of decks) {
+    await getCard2(deck)
+    count.value++
+  }
+}
+
+test2()
 // Player Deck: rrnwp5zoohxo
 // Royal Family Deck: touj381sc2u6
 // Ace Family Deck: n3fxmvtwhj6s

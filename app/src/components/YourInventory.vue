@@ -2,11 +2,15 @@
   <div>
     <div></div>
     <div
-      class="flex flex-col items-center gap-2 w-full p-2 border-2 opacity-30"
+      class="flex flex-col items-center gap-2 w-full p-2 border-2 opacity-30 "
       :class="{ 'opacity-100': isInArray }"
     >
       <h1 class="text-lg font-semibold">{{ card.value }} OF {{ card.suit }}</h1>
-      <img class="w-58 h-64" :src="card.image" />
+      <div class="relative w-58 h-64">
+        <img :src="card.image" class="w-full h-full filter brightness-100" />
+       <div class="absolute inset-0 bg-gradient-to-r from-1 to-gradient opacity-30"></div>
+</div>
+
     </div>
   </div>
 </template>

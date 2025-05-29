@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
 import type { Credentials } from '../types.ts'
 
-// interface UserInfo { // We already have Credentials
+// interface UserInfo { // We already have Credentials 
+// Ok I understand you can remove it at any time
 //   id: string;
 //   name: string;
 //   email: string;
@@ -11,6 +12,7 @@ interface UserState {
   loggedIn: boolean
   userInfo?: Credentials
   accessToken?: string // would we need this???
+  // i honestly don't understand pinia too much but if it never changes i dont see a need for it 
   isLoading: boolean
   error?: string
 }

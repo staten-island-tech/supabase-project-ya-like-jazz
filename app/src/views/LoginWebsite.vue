@@ -45,7 +45,7 @@ async function signInWithEmail() {
     password: password.value,
   })
   console.log(data, error)
-  userStore.login()
+  // userStore.login() = Needs fixing
 }
 
 supabase.auth.onAuthStateChange((event) => {

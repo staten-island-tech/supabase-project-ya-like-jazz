@@ -77,7 +77,7 @@ const router = useRouter()
 const isDropdownOpen = ref(false)
 const listener = ref(false)
 const deckID = ref('')
-
+const fetchedDeckID = ref('')
 function toggleDropdown() {
   if (listener.value === false) {
     isDropdownOpen.value = !isDropdownOpen.value
@@ -123,8 +123,8 @@ async function addToUserTable(uid: string, email: string) {
   /*   console.log('Upserted profile:', profileData) */
 }
 
-async function addToApiTable(uid: string, DeckID: string){
-  const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
+async function addToApiTable(uid: string, DeckID: string) {
+const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
     {
       uid: uid,
       DeckID: DeckID,
@@ -134,7 +134,7 @@ async function addToApiTable(uid: string, DeckID: string){
   if (profileError) {
     console.error('Error inserting into profiles:', profileError)
     return
-  }
+  } 
   /*   console.log('Upserted profile:', profileData) */
 }
 const { data } = supabase.auth.onAuthStateChange((event, session) => {
@@ -147,8 +147,8 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
       { uid: `${session?.user.id}`, email: `${session?.user.email}` },
     ])
     addToUserTable(identity.value[0].uid, identity.value[0].email)
-    getDeckID()
-    addToApiTable(identity.value[0].uid, deckID.value)
+    tableCheckpoint()
+   
   } else if (event === 'SIGNED_OUT') {
     localStorage.clear()
     sessionStorage.clear()
@@ -162,17 +162,36 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     // handle user updated event
   }
 })
+async function tableCheckpoint() {
+  const variable = ref('')
+  const { data, error } = await supabase
+  .from('API_credentials')
+  .select()
+  console.log("Your deck ID", data[0].DeckID)
+  fetchedDeckID.value = data[0].DeckID
+  console.log(fetchedDeckID.value, "Lol")
+/*   fetchedDeckID.value = data[0].DeckID */
+if (!fetchedDeckID.value){
+      console.log(fetchedDeckID.value)
+     getDeckID()
+      addToApiTable(identity.value[0].uid, deckID.value)
+    } else if (fetchedDeckID.value){
+      console.log("Hello", fetchedDeckID.value)
+
+      console.log("There is already a deck")
+    }
+}
 
 async function getDeckID() {
   try {
     const res = await fetch('https://deckofcardsapi.com/api/deck/new/')
-        if (res.status > 200) {
+    if (res.status > 200) {
       throw new Error(res)
     } else {
-    const data = await res.json()
-    console.log(data.deck_id)
-    deckID.value = data.deck_id
-    return { deckID }
+      const data = await res.json()
+      console.log(data.deck_id)
+      deckID.value = data.deck_id
+      return { deckID }
     }
   } catch (error) {
     alert(error)

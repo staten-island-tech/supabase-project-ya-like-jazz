@@ -10,7 +10,7 @@ import type { Credentials } from '../types.ts'
 interface UserState {
   loggedIn: boolean
   userInfo?: Credentials
-  accessToken?: string
+  accessToken?: string // would we need this???
   isLoading: boolean
   error?: string
 }
@@ -20,6 +20,7 @@ export const useUserStore = defineStore('user', {
     ({
       loggedIn: false,
       userInfo: undefined,
+      user: null as Credentials | null,
       accessToken: undefined,
       isLoading: false,
       error: undefined,

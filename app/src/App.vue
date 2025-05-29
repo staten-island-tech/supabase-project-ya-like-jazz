@@ -68,12 +68,15 @@ import { supabase } from '@/lib/supabaseClient'
 import type { Credentials } from '@/types'
 import { list } from 'postcss'
 import { useThemeStore } from '@/stores/chooseTheme'
+import { useUserStore } from '@/stores/loggedin'
 
 const themeStore = useThemeStore()
+const userStore = useUserStore()
 
 const router = useRouter()
 const isDropdownOpen = ref(false)
 const listener = ref(false)
+const deckID = ref('')
 
 function toggleDropdown() {
   if (listener.value === false) {
@@ -97,13 +100,15 @@ function listenerOff() {
 const verified = ref(false)
 
 async function signOut() {
-  /*   console.log(verified.value) */
+  // Use the user store here
+  console.log(verified.value)
   const { error } = await supabase.auth.signOut()
   /*   console.log(error, verified.value) */
   router.push('/')
+  userStore.logout()
 }
 
-async function addtoTable(uid: string, email: string) {
+async function addToUserTable(uid: string, email: string) {
   const { data: profileData, error: profileError } = await supabase.from('credentials').upsert([
     {
       uid: uid,
@@ -118,6 +123,20 @@ async function addtoTable(uid: string, email: string) {
   /*   console.log('Upserted profile:', profileData) */
 }
 
+async function addToApiTable(uid: string, DeckID: string){
+  const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
+    {
+      uid: uid,
+      DeckID: DeckID,
+    },
+  ])
+
+  if (profileError) {
+    console.error('Error inserting into profiles:', profileError)
+    return
+  }
+  /*   console.log('Upserted profile:', profileData) */
+}
 const { data } = supabase.auth.onAuthStateChange((event, session) => {
   /*   console.log(event, session) */
   if (event === 'INITIAL_SESSION') {
@@ -127,7 +146,9 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     const identity = ref<Credentials[]>([
       { uid: `${session?.user.id}`, email: `${session?.user.email}` },
     ])
-    addtoTable(identity.value[0].uid, identity.value[0].email)
+    addToUserTable(identity.value[0].uid, identity.value[0].email)
+    getDeckID()
+    addToApiTable(identity.value[0].uid, deckID.value)
   } else if (event === 'SIGNED_OUT') {
     localStorage.clear()
     sessionStorage.clear()
@@ -141,6 +162,22 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     // handle user updated event
   }
 })
+
+async function getDeckID() {
+  try {
+    const res = await fetch('https://deckofcardsapi.com/api/deck/new/')
+        if (res.status > 200) {
+      throw new Error(res)
+    } else {
+    const data = await res.json()
+    console.log(data.deck_id)
+    deckID.value = data.deck_id
+    return { deckID }
+    }
+  } catch (error) {
+    alert(error)
+  }
+}
 </script>
 
 <style scoped></style>

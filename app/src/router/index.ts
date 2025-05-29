@@ -28,18 +28,25 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: () => import('../views/ProfilePage.vue'),
+      // meta: { requiresAuth: true }
     },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsPage.vue'),
+      // meta: { requiresAuth: true }
     },
     {
       path: '/play',
       name: 'play',
       component: () => import('../views/PlayPage.vue'),
+      // meta: { requiresAuth: true }
     },
   ],
 })
+
+// router.beforeEach((to, from) => {
+//   if 
+// })
 
 export default router

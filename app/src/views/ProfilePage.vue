@@ -66,16 +66,18 @@ const obtained = ref([]) // This will hold the owned card codes
 
 async function fetchInventory() {
   try {
-    const res = await fetch(`https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/pile/player/list/`)
+    const res = await fetch(
+      `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/pile/player/list/`,
+    )
     if (res.status > 200) {
-      throw new Error("ogirkjtbrfmikoltpe")
+      throw new Error('ogirkjtbrfmikoltpe')
     } else {
       const data = await res.json()
       obtained.value = data.piles.player.cards.map((card) => card.code)
       return { data }
     }
   } catch (error) {
-    console.log("player has not obtained any cards yet, normal error")
+    console.log('player has not obtained any cards yet, normal error')
   }
 }
 
@@ -85,7 +87,9 @@ onMounted(() => {
 
 async function displaySets(collectionDeck) {
   try {
-    const res = await fetch(`https://deckofcardsapi.com/api/deck/${collectionDeck}/pile/player/list/`)
+    const res = await fetch(
+      `https://deckofcardsapi.com/api/deck/${collectionDeck}/pile/player/list/`,
+    )
     if (res.status > 200) {
       throw new Error(res)
     } else {

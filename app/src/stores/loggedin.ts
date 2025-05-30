@@ -54,4 +54,5 @@ export const useUserStore = defineStore('user', {
     storage: sessionStorage,
     pick: ['loggedIn'],
   },
+  // I added this along with meta in the router because of false flags
 })

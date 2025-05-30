@@ -12,7 +12,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useDeckStore } from '@/stores/yourDeck'
-import { gsap } from 'gsap'
+/* import { gsap } from 'gsap'  */
+import { supabase } from '@/lib/supabaseClient'
 
 const deckStore = useDeckStore()
 const number = ref('')
@@ -25,7 +26,7 @@ function spinForSet() {
   const randomNumber = Math.floor(Math.random() * 100 + 1)
   if (randomNumber <= 60) {
     number.value = getRandomFromArray([2, 3, 4, 5, 6])
-    gsap.to('box')
+/*     gsap.to('box') */
     /*     number.value = '2-6' */
   } else if (randomNumber <= 80) {
     /*     number.value = '7-10' */
@@ -95,10 +96,31 @@ async function addToInventory(code) {
     } else {
       const data = await res.json()
       console.log(data)
+      addToSupabaseTable(code)
     }
   } catch (error) {
     alert(error)
   }
+}
+
+async function addToSupabaseTable(code) {
+   const { data } = await supabase.auth.getUser()
+  const uid = data.user.id
+  console.log(uid)
+
+  const { data: profileData, error: profileError } = await supabase.from('user_cards').insert([
+    {
+      uid: uid,
+      deckid: deckStore.yourDeckID,
+      card_code: code,
+    },
+  ])
+
+  if (profileError) {
+    console.error('Error inserting into profiles:', profileError)
+    return
+  } 
+  /*   console.log('Upserted profile:', profileData) */
 }
 
 // https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/draw/?count=52

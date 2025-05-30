@@ -53,8 +53,8 @@ async function signInWithEmail() {
   } else {
     alert('Login failed!')
   }
+  // userStore.login() = Needs fixing
 }
-
 </script>
 
 <style lang="scss" scoped></style>

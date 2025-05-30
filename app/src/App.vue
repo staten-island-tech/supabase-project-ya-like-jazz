@@ -126,7 +126,7 @@ async function addToUserTable(uid: string, email: string) {
 }
 
 async function addToApiTable(uid: string, APIDeckID: string) {
-const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
+  const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
     {
       uid: uid,
       supabaseDeckID: APIDeckID,
@@ -136,7 +136,7 @@ const { data: profileData, error: profileError } = await supabase.from('API_cred
   if (profileError) {
     console.error('Error inserting into profiles:', profileError)
     return
-  } 
+  }
   /*   console.log('Upserted profile:', profileData) */
 }
 const { data } = supabase.auth.onAuthStateChange((event, session) => {
@@ -150,7 +150,6 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     ])
     addToUserTable(identity.value[0].uid, identity.value[0].email)
     tableCheckpoint(session?.user.id)
-   
   } else if (event === 'SIGNED_OUT') {
     localStorage.clear()
     sessionStorage.clear()
@@ -165,23 +164,22 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
   }
 })
 async function tableCheckpoint(uid) {
-  const { data, error } = await supabase
-    .from('API_credentials')
-    .select()
+  const { data, error } = await supabase.from('API_credentials').select()
 
   if (error) {
-    console.error("Error fetching API credentials:", error)
+    console.error('Error fetching API credentials:', error)
     return
   }
 
   if (!data || data.length === 0) {
-     await generateDeckID()
-    await addToApiTable(uid, createdDeckID.value) 
+    await generateDeckID()
+    await addToApiTable(uid, createdDeckID.value)
   }
   deckStore.yourDeckID = data[0].supabaseDeckID
-  await necessaryAPICalls(`https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/draw/?count=52`)
+  await necessaryAPICalls(
+    `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/draw/?count=52`,
+  )
 }
-
 
 async function generateDeckID() {
   try {
@@ -190,7 +188,7 @@ async function generateDeckID() {
       throw new Error(res)
     } else {
       const data = await res.json()
-     console.log(data.deck_id) 
+      console.log(data.deck_id)
       createdDeckID.value = data.deck_id
       return { createdDeckID }
     }
@@ -212,7 +210,6 @@ async function necessaryAPICalls(link) {
     alert(error)
   }
 }
-
 </script>
 
 <style scoped></style>

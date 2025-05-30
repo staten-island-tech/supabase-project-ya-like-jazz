@@ -49,9 +49,9 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
 
   if (to.meta.requiresAuth && !userStore.loggedIn) {
-    next('/login') 
+    next('/login')
   } else {
-    next() 
+    next()
   }
 })
 export default router

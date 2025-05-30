@@ -5,7 +5,7 @@
     @click="listener && listenerOff()"
   >
     <header>
-      <nav class="bg-2 h-16 p-2 flex justify-between items-center">
+      <nav class="sticky bg-2 h-16 p-2 flex justify-between items-center">
         <div>
           <RouterLink class="bg-3 hover:bg-hover3 text-textcolor py-2 px-4 rounded" to="/"
             >Home</RouterLink
@@ -69,15 +69,17 @@ import type { Credentials } from '@/types'
 import { list } from 'postcss'
 import { useThemeStore } from '@/stores/chooseTheme'
 import { useUserStore } from '@/stores/loggedin'
+import { useDeckStore } from '@/stores/yourDeck'
 
+const deckStore = useDeckStore()
 const themeStore = useThemeStore()
 const userStore = useUserStore()
 
 const router = useRouter()
 const isDropdownOpen = ref(false)
 const listener = ref(false)
-const deckID = ref('')
-const fetchedDeckID = ref('')
+const createdDeckID = ref('')
+
 function toggleDropdown() {
   if (listener.value === false) {
     isDropdownOpen.value = !isDropdownOpen.value
@@ -123,11 +125,11 @@ async function addToUserTable(uid: string, email: string) {
   /*   console.log('Upserted profile:', profileData) */
 }
 
-async function addToApiTable(uid: string, DeckID: string) {
+async function addToApiTable(uid: string, APIDeckID: string) {
 const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
     {
       uid: uid,
-      DeckID: DeckID,
+      supabaseDeckID: APIDeckID,
     },
   ])
 
@@ -147,7 +149,7 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
       { uid: `${session?.user.id}`, email: `${session?.user.email}` },
     ])
     addToUserTable(identity.value[0].uid, identity.value[0].email)
-    tableCheckpoint()
+    tableCheckpoint(session?.user.id)
    
   } else if (event === 'SIGNED_OUT') {
     localStorage.clear()
@@ -162,41 +164,55 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     // handle user updated event
   }
 })
-async function tableCheckpoint() {
-  const variable = ref('')
+async function tableCheckpoint(uid) {
   const { data, error } = await supabase
-  .from('API_credentials')
-  .select()
-  console.log("Your deck ID", data[0].DeckID)
-  fetchedDeckID.value = data[0].DeckID
-  console.log(fetchedDeckID.value, "Lol")
-/*   fetchedDeckID.value = data[0].DeckID */
-if (!fetchedDeckID.value){
-      console.log(fetchedDeckID.value)
-     getDeckID()
-      addToApiTable(identity.value[0].uid, deckID.value)
-    } else if (fetchedDeckID.value){
-      console.log("Hello", fetchedDeckID.value)
+    .from('API_credentials')
+    .select()
 
-      console.log("There is already a deck")
-    }
+  if (error) {
+    console.error("Error fetching API credentials:", error)
+    return
+  }
+
+  if (!data || data.length === 0) {
+     await generateDeckID()
+    await addToApiTable(uid, createdDeckID.value) 
+  }
+  deckStore.yourDeckID = data[0].supabaseDeckID
+  await necessaryAPICalls(`https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/draw/?count=52`)
 }
 
-async function getDeckID() {
+
+async function generateDeckID() {
   try {
     const res = await fetch('https://deckofcardsapi.com/api/deck/new/')
     if (res.status > 200) {
       throw new Error(res)
     } else {
       const data = await res.json()
-      console.log(data.deck_id)
-      deckID.value = data.deck_id
-      return { deckID }
+     console.log(data.deck_id) 
+      createdDeckID.value = data.deck_id
+      return { createdDeckID }
     }
   } catch (error) {
     alert(error)
   }
 }
+
+async function necessaryAPICalls(link) {
+  try {
+    const res = await fetch(link)
+    if (res.status > 200) {
+      throw new Error(res)
+    } else {
+      const data = await res.json()
+      return data
+    }
+  } catch (error) {
+    alert(error)
+  }
+}
+
 </script>
 
 <style scoped></style>

@@ -53,6 +53,10 @@
 <script setup>
 import YourInventory from '@/components/YourInventory.vue'
 import { ref, onMounted } from 'vue'
+import { useDeckStore } from '@/stores/yourDeck'
+
+const deckStore = useDeckStore()
+console.log('Deck ID:', deckStore.yourDeckID)
 const aces = ref([])
 const royalCards = ref([])
 const books = ref([])
@@ -62,27 +66,26 @@ const obtained = ref([]) // This will hold the owned card codes
 
 async function fetchInventory() {
   try {
-    const res = await fetch('https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/pile/player/list/')
+    const res = await fetch(`https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/pile/player/list/`)
     if (res.status > 200) {
-      throw new Error(res)
+      throw new Error("ogirkjtbrfmikoltpe")
     } else {
       const data = await res.json()
       obtained.value = data.piles.player.cards.map((card) => card.code)
       return { data }
     }
   } catch (error) {
-    alert(error)
+    console.log("player has not obtained any cards yet, normal error")
   }
 }
 
-// Call once when component mounts
 onMounted(() => {
   fetchInventory()
 })
 
-async function displaySets(deck) {
+async function displaySets(collectionDeck) {
   try {
-    const res = await fetch(`https://deckofcardsapi.com/api/deck/${deck}/pile/player/list/`)
+    const res = await fetch(`https://deckofcardsapi.com/api/deck/${collectionDeck}/pile/player/list/`)
     if (res.status > 200) {
       throw new Error(res)
     } else {
@@ -108,9 +111,9 @@ function organizeSet(data) {
 }
 
 async function beginLoading() {
-  const decks = ['n3fxmvtwhj6s', 'touj381sc2u6', 'xbm4zi4te6bu', 'gptcy4vs0tut']
-  for (const deck of decks) {
-    await displaySets(deck)
+  const collectionDecks = ['n3fxmvtwhj6s', 'touj381sc2u6', 'xbm4zi4te6bu', 'gptcy4vs0tut']
+  for (const collectionDeck of collectionDecks) {
+    await displaySets(collectionDeck)
     count.value++
   }
 }

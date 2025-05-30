@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-
+import { useUserStore } from '@/stores/loggedin'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -28,25 +28,30 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: () => import('../views/ProfilePage.vue'),
-      // meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('../views/SettingsPage.vue'),
-      // meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
     {
       path: '/play',
       name: 'play',
       component: () => import('../views/PlayPage.vue'),
-      // meta: { requiresAuth: true }
+      meta: { requiresAuth: true },
     },
   ],
 })
 
-// router.beforeEach((to, from) => {
-//   if
-// })
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
 
+  if (to.meta.requiresAuth && !userStore.loggedIn) {
+    next('/login') 
+  } else {
+    next() 
+  }
+})
 export default router

@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import router from '@/router/index.ts'
+import router from '@/router/index'
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 import { useUserStore } from '../stores/loggedin.ts'
@@ -44,13 +44,17 @@ async function signInWithEmail() {
     email: username.value,
     password: password.value,
   })
+
   console.log(data, error)
-  userStore.login()
+
+  if (!error) {
+    userStore.login()
+    router.push('/profile')
+  } else {
+    alert('Login failed!')
+  }
 }
 
-supabase.auth.onAuthStateChange((event) => {
-  if (event === 'SIGNED_IN') router.push('/profile')
-})
 </script>
 
 <style lang="scss" scoped></style>

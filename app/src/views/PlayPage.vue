@@ -11,7 +11,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useDeckStore } from '@/stores/yourDeck'
 
+const deckStore = useDeckStore()
 const number = ref('')
 const suit = ref('')
 const code = computed(() => getCardCode(number.value, suit.value))
@@ -84,7 +86,7 @@ function getCardCode(number, suit) {
 async function addToInventory(code) {
   try {
     const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/pile/player/add/?cards=${code}`,
+      `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/pile/player/add/?cards=${code}`,
     )
     if (res.status > 200) {
       throw new Error(res)

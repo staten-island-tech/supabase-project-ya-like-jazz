@@ -50,4 +50,8 @@ export const useUserStore = defineStore('user', {
   getters: {
     displayName: (state) => state.userInfo?.uid ?? 'Guest',
   },
+  persist: {
+    storage: sessionStorage,
+    pick: ['loggedIn'],
+  },
 })

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useThemeStore = defineStore(
-  'main',
+  'themeStore',
   () => {
     const currentTheme = ref('default')
     return { currentTheme }

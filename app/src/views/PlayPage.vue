@@ -12,6 +12,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useDeckStore } from '@/stores/yourDeck'
+import { gsap } from 'gsap'
 
 const deckStore = useDeckStore()
 const number = ref('')
@@ -24,6 +25,7 @@ function spinForSet() {
   const randomNumber = Math.floor(Math.random() * 100 + 1)
   if (randomNumber <= 60) {
     number.value = getRandomFromArray([2, 3, 4, 5, 6])
+    gsap.to('box')
     /*     number.value = '2-6' */
   } else if (randomNumber <= 80) {
     /*     number.value = '7-10' */

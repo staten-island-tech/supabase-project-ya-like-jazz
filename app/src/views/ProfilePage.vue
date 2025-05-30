@@ -50,7 +50,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import YourInventory from '@/components/YourInventory.vue'
 import { ref, onMounted } from 'vue'
 import { useDeckStore } from '@/stores/yourDeck'

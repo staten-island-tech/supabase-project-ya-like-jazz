@@ -47,6 +47,11 @@ const router = createRouter({
       component: () => import('../views/PlayPage.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/gsaptesting',
+      name: 'gsaptesting',
+      component: () => import('../views/GsapTesting.vue'),
+    }
   ],
 })
 

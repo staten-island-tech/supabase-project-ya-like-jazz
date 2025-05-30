@@ -34,10 +34,12 @@ import router from '@/router/index'
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 import { useUserStore } from '../stores/loggedin.ts'
+import { useDeckStore } from '../stores/yourDeck.ts'
 
 const username = ref('') // Should convert this to TypeScript
 const password = ref('')
 const userStore = useUserStore()
+const deckStore = useDeckStore()
 
 async function signInWithEmail() {
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -49,11 +51,20 @@ async function signInWithEmail() {
 
   if (!error) {
     userStore.login()
+    await getDeckID()
     router.push('/profile')
+
   } else {
     alert('Login failed!')
   }
   // userStore.login() = Needs fixing
+}
+
+async function getDeckID(){
+  const { data, error } = await supabase.from('API_credentials').select()
+  console.log(data)
+  console.log(data[0].supabaseDeckID)
+  deckStore.yourDeckID = data[0].supabaseDeckID
 }
 </script>
 

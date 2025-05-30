@@ -97,10 +97,17 @@ async function addToInventory(code) {
       const data = await res.json()
       console.log(data)
       addToSupabaseTable(code)
+      increaseQuantity(code)
     }
   } catch (error) {
     alert(error)
   }
+}
+
+async function increaseQuantity(code){
+  const { data, error } = await supabase.from('user_cards').select(code)
+  console.log("grjjfergf", data)
+  console.log("grjjfergf;rlgthnjmer;[w]", error)
 }
 
 async function addToSupabaseTable(code) {
@@ -108,11 +115,12 @@ async function addToSupabaseTable(code) {
   const uid = data.user.id
   console.log(uid)
 
-  const { data: profileData, error: profileError } = await supabase.from('user_cards').insert([
+  const { data: profileData, error: profileError } = await supabase.from('user_cards').upsert([
     {
       uid: uid,
       deckid: deckStore.yourDeckID,
       card_code: code,
+      quantity: quantity
     },
   ])
 

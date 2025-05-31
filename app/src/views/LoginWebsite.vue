@@ -53,14 +53,13 @@ async function signInWithEmail() {
     userStore.login()
     await getDeckID()
     router.push('/profile')
-
   } else {
     alert('Login failed!')
   }
   // userStore.login() = Needs fixing
 }
 
-async function getDeckID(){
+async function getDeckID() {
   const { data, error } = await supabase.from('API_credentials').select()
   console.log(data)
   console.log(data[0].supabaseDeckID)

@@ -5,7 +5,8 @@
     @click="listener && listenerOff()"
   >
     <header>
-      <nav class="bg-2 h-16 p-2 flex justify-between items-center">
+      <nav class="fixed top-0 left-0 right-0 z-50 bg-2 h-16 p-2 flex justify-between items-center shadow-md">
+
         <div>
           <RouterLink class="bg-3 hover:bg-hover3 text-textcolor py-2 px-4 rounded" to="/"
             >Home</RouterLink
@@ -56,7 +57,10 @@
         </div>
       </nav>
     </header>
-    <RouterView />
+    <div class="pt-16">
+          <RouterView />
+    </div>
+
   </div>
 </template>
 
@@ -175,7 +179,7 @@ async function tableCheckpoint(uid) {
     await generateDeckID()
     await addToApiTable(uid, createdDeckID.value)
   }
-/*   deckStore.yourDeckID = data[0].supabaseDeckID */
+  /*   deckStore.yourDeckID = data[0].supabaseDeckID */
   await necessaryAPICalls(
     `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/draw/?count=52`,
   )

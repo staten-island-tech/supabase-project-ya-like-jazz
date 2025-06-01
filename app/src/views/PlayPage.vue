@@ -9,16 +9,18 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useDeckStore } from '@/stores/yourDeck'
 /* import { gsap } from 'gsap'  */
 import { supabase } from '@/lib/supabaseClient'
+import type { Suits, Numbers } from '@/types'
+import { error } from 'console'
 
 const deckStore = useDeckStore()
-const number = ref('')
-const suit = ref('')
-const code = computed(() => getCardCode(number.value, suit.value))
+const number = ref<Numbers>()
+const suit = ref<Suits>()
+const code = computed(() => getCardCode(number.value!, suit.value!))
 const imageURL = computed(() => `https://deckofcardsapi.com/static/img/${code.value}.png`)
 const quantity = ref(1)
 
@@ -26,10 +28,10 @@ function spinForSet() {
   spinForSuit()
   const randomNumber = Math.floor(Math.random() * 100 + 1)
   if (randomNumber <= 60) {
-    number.value = getRandomFromArray([2, 3, 4, 5, 6])
+    number.value = getRandomFromArray([2, 3, 4, 5, 6] as Numbers[])
     /*     gsap.to('box') */
   } else if (randomNumber <= 80) {
-    number.value = getRandomFromArray([7, 8, 9, 10])
+    number.value = getRandomFromArray([7, 8, 9, 10] as Numbers[])
   } else if (randomNumber <= 100) {
     spinAceOrRoyal()
   }
@@ -38,30 +40,30 @@ function spinForSet() {
 function spinAceOrRoyal() {
   const randomNumber = Math.floor(Math.random() * 10 + 1)
   if (randomNumber < 10) {
-    number.value = getRandomFromArray(['Jack', 'Queen', 'King'])
+    number.value = getRandomFromArray(['Jack', 'Queen', 'King'] as Numbers[])
   } else {
     number.value = 'Ace'
   }
 }
 
 function spinForSuit() {
-  suit.value = getRandomFromArray(['Diamonds', 'Clubs', 'Hearts', 'Spades'])
+  suit.value = getRandomFromArray(['Diamonds', 'Clubs', 'Hearts', 'Spades'] as Suits[])
 }
 
-function getRandomFromArray(arr) {
+function getRandomFromArray<T>(arr: T[]) {
   const index = Math.floor(Math.random() * arr.length)
   return arr[index]
 }
 
-function getCardCode(number, suit) {
-  const suitCodes = {
+function getCardCode(number: Numbers, suit: Suits) {
+  const suitCodes: Record<Suits, string> = {
     Spades: 'S',
     Hearts: 'H',
     Diamonds: 'D',
     Clubs: 'C',
   }
 
-  const numberCodes = {
+  const numberCodes: Record<Numbers, string> = {
     Ace: 'A',
     Jack: 'J',
     Queen: 'Q',
@@ -83,13 +85,14 @@ function getCardCode(number, suit) {
   return `${numCode}${suitCode}`
 }
 
-async function addToInventory(code) {
+async function addToInventory(code: string) {
   try {
     const res = await fetch(
       `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/pile/player/add/?cards=${code}`,
     )
-    if (res.status > 200) {
-      throw new Error(res)
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.log(errorText)
     } else {
       const data = await res.json()
       /*       console.log(data) */
@@ -100,22 +103,22 @@ async function addToInventory(code) {
   }
 }
 
-async function quantityCheckpoint(code) {
+async function quantityCheckpoint(code: string) {
   const { data, error } = await supabase.from('user_cards').select('*').eq('card_code', code)
   /*   console.log('grjjfergf', data) */
   if (!data || data.length === 0) {
     quantity.value = 1
-    await insertToDeckTable(code, quantity.value)
+    await insertToDeckTable(code)
   } else {
     quantity.value = quantity.value + 1
-    await updateDeckTable(code, quantity.value)
+    await updateDeckTable(code)
   }
   return { data }
 }
 
-async function insertToDeckTable(code, quantityNumber) {
+async function insertToDeckTable(code: string) {
   const { data } = await supabase.auth.getUser()
-  const uid = data.user.id
+  const uid = data.user!.id
   /*   console.log(uid) */
 
   const { data: profileData, error: profileError } = await supabase.from('user_cards').insert([
@@ -134,7 +137,7 @@ async function insertToDeckTable(code, quantityNumber) {
   /*   console.log('Upserted profile:', profileData) */
 }
 
-async function updateDeckTable(code, quantityNumber) {
+async function updateDeckTable(code: string) {
   const { data, error } = await supabase
     .from('user_cards')
     .update({ quantity: quantity.value })

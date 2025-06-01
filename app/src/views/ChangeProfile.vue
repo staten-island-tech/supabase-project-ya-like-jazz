@@ -24,14 +24,14 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useSettingsStore } from '@/stores/settings';
 import { ref } from 'vue'
 const settingsStore = useSettingsStore()
 
 const text = ref('')
 
-function isValidUrl(string) {
+function isValidUrl(string: string) {
   try {
     new URL(string)
     return true

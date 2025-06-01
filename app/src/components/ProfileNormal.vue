@@ -35,17 +35,18 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import YourInventory from '@/components/YourInventory.vue'
 import { ref, onMounted } from 'vue'
 import { useDeckStore } from '@/stores/yourDeck'
+import type { CardCollection } from '@/types'
 
 const deckStore = useDeckStore()
 console.log('Deck ID:', deckStore.yourDeckID)
-const aces = ref([])
-const royalCards = ref([])
-const books = ref([])
-const trays = ref([])
+const aces = ref<CardCollection[]>([])
+const royalCards = ref<CardCollection[]>([])
+const books = ref<CardCollection[]>([])
+const trays = ref<CardCollection[]>([])
 const count = ref(0)
 const obtained = ref([]) // This will hold the owned card codes
 
@@ -58,7 +59,7 @@ async function fetchInventory() {
       throw new Error('ogirkjtbrfmikoltpe')
     } else {
       const data = await res.json()
-      obtained.value = data.piles.player.cards.map((card) => card.code)
+      obtained.value = data.piles.player.cards.map((card: { code: string }) => card.code)
       return { data }
     }
   } catch (error) {
@@ -70,16 +71,18 @@ onMounted(() => {
   fetchInventory()
 })
 
-async function displaySets(collectionDeck) {
+async function displaySets(collectionDeck: string) {
   try {
     const res = await fetch(
       `https://deckofcardsapi.com/api/deck/${collectionDeck}/pile/player/list/`,
     )
-    if (res.status > 200) {
-      throw new Error(res)
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.log(`${errorText}`)
     } else {
       const data = await res.json()
-      organizeSet(data)
+      console.log(data.piles.player.cards)
+      organizeSet(data.piles.player.cards)
       return { data }
     }
   } catch (error) {
@@ -87,15 +90,15 @@ async function displaySets(collectionDeck) {
   }
 }
 
-function organizeSet(data) {
+function organizeSet(data: CardCollection[]) {
   if (count.value === 0) {
-    aces.value = data.piles.player.cards
+    aces.value = data
   } else if (count.value === 1) {
-    royalCards.value = data.piles.player.cards
+    royalCards.value = data
   } else if (count.value === 2) {
-    books.value = data.piles.player.cards
+    books.value = data
   } else if (count.value === 3) {
-    trays.value = data.piles.player.cards
+    trays.value = data
   }
 }
 

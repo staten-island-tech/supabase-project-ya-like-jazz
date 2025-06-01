@@ -1,52 +1,41 @@
 <template>
+  <div>
     <div>
-      <div>
-        <h1 class="text-textcolor2">Aces</h1>
-        <div class="grid grid-cols-4 gap-4">
-          <YourInventory v-for="ace in aces" :card="ace" :key="ace.code" :ownedCards="obtained" />
-        </div>
-      </div>
-
-      <div>
-        <h1 class="text-textcolor2">Royal Family</h1>
-        <div class="grid grid-cols-3 gap-4">
-          <YourInventory
-            v-for="royalCard in royalCards"
-            :card="royalCard"
-            :key="royalCard.code"
-            :ownedCards="obtained"
-          />
-        </div>
-      </div>
-
-      <div>
-        <h1 class="text-textcolor2">7-10 Family</h1>
-        <div class="grid grid-cols-4 gap-4">
-          <YourInventory
-            v-for="book in books"
-            :card="book"
-            :key="book.code"
-            :ownedCards="obtained"
-          />
-        </div>
-      </div>
-
-      <div>
-        <h1 class="text-textcolor2">2-6 Family</h1>
-        <div class="grid grid-cols-4 gap-4">
-          <YourInventory
-            v-for="tray in trays"
-            :card="tray"
-            :key="tray.code"
-            :ownedCards="obtained"
-          />
-        </div>
+      <h1 class="text-textcolor2">Aces</h1>
+      <div class="grid grid-cols-4 gap-4">
+        <YourInventory v-for="ace in aces" :card="ace" :key="ace.code" :ownedCards="obtained" />
       </div>
     </div>
+
+    <div>
+      <h1 class="text-textcolor2">Royal Family</h1>
+      <div class="grid grid-cols-3 gap-4">
+        <YourInventory
+          v-for="royalCard in royalCards"
+          :card="royalCard"
+          :key="royalCard.code"
+          :ownedCards="obtained"
+        />
+      </div>
+    </div>
+
+    <div>
+      <h1 class="text-textcolor2">7-10 Family</h1>
+      <div class="grid grid-cols-4 gap-4">
+        <YourInventory v-for="book in books" :card="book" :key="book.code" :ownedCards="obtained" />
+      </div>
+    </div>
+
+    <div>
+      <h1 class="text-textcolor2">2-6 Family</h1>
+      <div class="grid grid-cols-4 gap-4">
+        <YourInventory v-for="tray in trays" :card="tray" :key="tray.code" :ownedCards="obtained" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
-
 import YourInventory from '@/components/YourInventory.vue'
 import { ref, onMounted } from 'vue'
 import { useDeckStore } from '@/stores/yourDeck'
@@ -129,6 +118,4 @@ beginLoading()
 //picture of supabase tables, code given 10 discarded. finish project !!
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

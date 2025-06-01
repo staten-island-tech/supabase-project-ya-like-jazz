@@ -23,16 +23,14 @@ const imageURL = computed(() => `https://deckofcardsapi.com/static/img/${code.va
 const quantity = ref(1)
 
 function spinForSet() {
- spinForSuit()
+  spinForSuit()
   const randomNumber = Math.floor(Math.random() * 100 + 1)
   if (randomNumber <= 60) {
     number.value = getRandomFromArray([2, 3, 4, 5, 6])
     /*     gsap.to('box') */
-
-   } else if (randomNumber <= 80) {
-
+  } else if (randomNumber <= 80) {
     number.value = getRandomFromArray([7, 8, 9, 10])
-   } else if (randomNumber <= 100) { 
+  } else if (randomNumber <= 100) {
     spinAceOrRoyal()
   }
 }
@@ -42,7 +40,6 @@ function spinAceOrRoyal() {
   if (randomNumber < 10) {
     number.value = getRandomFromArray(['Jack', 'Queen', 'King'])
   } else {
-
     number.value = 'Ace'
   }
 }
@@ -95,9 +92,8 @@ async function addToInventory(code) {
       throw new Error(res)
     } else {
       const data = await res.json()
-/*       console.log(data) */
+      /*       console.log(data) */
       quantityCheckpoint(code)
-
     }
   } catch (error) {
     alert(error)
@@ -105,12 +101,9 @@ async function addToInventory(code) {
 }
 
 async function quantityCheckpoint(code) {
-  
-  const { data, error } = await supabase.from('user_cards')
-    .select('*')
-    .eq('card_code', code)
-/*   console.log('grjjfergf', data) */
-  if (!data || data.length === 0){
+  const { data, error } = await supabase.from('user_cards').select('*').eq('card_code', code)
+  /*   console.log('grjjfergf', data) */
+  if (!data || data.length === 0) {
     quantity.value = 1
     await insertToDeckTable(code, quantity.value)
   } else {
@@ -123,7 +116,7 @@ async function quantityCheckpoint(code) {
 async function insertToDeckTable(code, quantityNumber) {
   const { data } = await supabase.auth.getUser()
   const uid = data.user.id
-/*   console.log(uid) */
+  /*   console.log(uid) */
 
   const { data: profileData, error: profileError } = await supabase.from('user_cards').insert([
     {
@@ -143,18 +136,16 @@ async function insertToDeckTable(code, quantityNumber) {
 
 async function updateDeckTable(code, quantityNumber) {
   const { data, error } = await supabase
-  .from('user_cards')
-  .update({ quantity: quantity.value })
-  .eq('card_code', code)
-  .select()
+    .from('user_cards')
+    .update({ quantity: quantity.value })
+    .eq('card_code', code)
+    .select()
   console.log(data)
-    if (error) {
+  if (error) {
     console.error('Error updating profile:', profileError)
     return
   }
 }
-
-
 
 // https://deckofcardsapi.com/api/deck/rrnwp5zoohxo/draw/?count=52
 // idk why you need to do this but you have to, this needs to be done to a new pile before they can draw

@@ -1,17 +1,16 @@
 <template>
   <div>
-    <h1 class="text-textcolor2">Counter: {{ counterStore.count }}</h1>
-    <h2 class="text-textcolor2">Double: {{ counterStore.doubleCount }}</h2>
-    <button class="text-textcolor2" @click="counterStore.increment">Increment</button>
-    <div>
-      <RouterLink to="/play"> Game </RouterLink>
+    <div v-if="!userStore.loggedIn">
+          <h1 class="text-textcolor2" @click="console.log(userStore.loggedIn)"> Hello </h1>
+    </div>
+    <div v-if="userStore.loggedIn">     
+       <RouterLink to="/play" class="text-textcolor2"> Launch Game </RouterLink>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useCounterStore } from '@/stores/counter'
+import { useUserStore } from '@/stores/loggedin'
 
-// Access the counter store
-const counterStore = useCounterStore()
+const userStore = useUserStore()
 </script>

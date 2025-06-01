@@ -7,38 +7,41 @@
       <li class="cursor-pointer text-md text-textcolor2" @click="themeBlue()">Blue</li>
       <li class="cursor-pointer text-md text-textcolor2" @click="themeDesert()">Desert</li>
     </ul>
-    <h1> Card Collection Style </h1>
+    <h1>Card Collection Style</h1>
     <ul>
-    <li class="cursor-pointer text-md text-textcolor2" @click="activateBubbles()">Activate Bubbly Profile</li>
-    <li class="cursor-pointer text-md text-textcolor2" @click="deactivateBubbles()">Activate Normal Profile</li>
+      <li class="cursor-pointer text-md text-textcolor2" @click="activateBubbles()">
+        Activate Bubbly Profile
+      </li>
+      <li class="cursor-pointer text-md text-textcolor2" @click="deactivateBubbles()">
+        Activate Normal Profile
+      </li>
     </ul>
+    <RouterLink to="/changepfp"> Change Profile Picture </RouterLink>
   </div>
 </template>
 
 <script setup>
-import { useThemeStore } from '@/stores/chooseTheme'
 import { useSettingsStore } from '@/stores/settings'
 
 const settingsStore = useSettingsStore()
-const themeStore = useThemeStore()
 
-function activateBubbles(){
+function activateBubbles() {
   settingsStore.bubbles = true
 }
-function deactivateBubbles(){
+function deactivateBubbles() {
   settingsStore.bubbles = false
 }
 function themePink() {
-  themeStore.currentTheme = 'pink'
+  settingsStore.currentTheme = 'pink'
 }
 function themeDefault() {
-  themeStore.currentTheme = 'default'
+  settingsStore.currentTheme = 'default'
 }
 function themeBlue() {
-  themeStore.currentTheme = 'blue'
+  settingsStore.currentTheme = 'blue'
 }
 function themeDesert() {
-  themeStore.currentTheme = 'desert'
+  settingsStore.currentTheme = 'desert'
 }
 </script>
 

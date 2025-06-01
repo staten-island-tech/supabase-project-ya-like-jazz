@@ -24,7 +24,7 @@ const router = createRouter({
       name: 'emailverification',
       component: () => import('../views/EmailVerification.vue'),
     },
-/*     {
+    /*     {
       path: '/testpage',
       name: 'testpage',
       component: () => import('../components/testPage.vue'),
@@ -45,6 +45,12 @@ const router = createRouter({
       path: '/play',
       name: 'play',
       component: () => import('../views/PlayPage.vue'),
+      meta: { requiresAuth: true },
+    },
+        {
+      path: '/changepfp',
+      name: 'changepfp',
+      component: () => import('../views/changeProfile.vue'),
       meta: { requiresAuth: true },
     },
   ],

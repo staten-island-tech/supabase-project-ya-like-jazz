@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="box"></div>
+    <Button label=""></Button>
   </div>
 </template>
 

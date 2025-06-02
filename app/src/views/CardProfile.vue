@@ -1,15 +1,18 @@
 <template>
   <div>
     <div>
-      <h1 class="text-textcolor2 text-center text-8xl">{{ cardName }} </h1>
-      <div class="flex justify-center p-2"  :class="{ 'opacity-100': ownedStatus, 'opacity-30': !ownedStatus }"> 
-      <div class="relative">
-        <img :src="cardImage" class="w-full h-full filter brightness-100" />
-        <div class="absolute inset-0 bg-gradient-to-r from-1 to-gradient opacity-30"></div>
+      <h1 class="text-textcolor2 text-center text-8xl">{{ cardName }}</h1>
+      <div
+        class="flex justify-center p-2"
+        :class="{ 'opacity-100': ownedStatus, 'opacity-30': !ownedStatus }"
+      >
+        <div class="relative">
+          <img :src="cardImage" class="w-full h-full filter brightness-100" />
+          <div class="absolute inset-0 bg-gradient-to-r from-1 to-gradient opacity-30"></div>
+        </div>
       </div>
-    </div>
-      <h1 class="text-textcolor2 text-center text-2xl"> {{ description }} </h1>
-      <h1 class="text-textcolor2 text-center"> {{ ownedAmount }}</h1>
+      <h1 class="text-textcolor2 text-center text-2xl">{{ description }}</h1>
+      <h1 class="text-textcolor2 text-center">{{ ownedAmount }}</h1>
     </div>
   </div>
 </template>
@@ -18,11 +21,11 @@
 import { supabase } from '@/lib/supabaseClient'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import cardDescriptions from '@/lib/cardDescriptions.json' 
+import cardDescriptions from '@/lib/cardDescriptions.json'
 
 const route = useRoute()
 const cardImage = `https://deckofcardsapi.com/static/img/${route.params.code}.png`
-const cardName =  getCardName(route.params.code)
+const cardName = getCardName(route.params.code)
 const description = cardDescriptions[`${route.params.code}`] // I did use gpt for this!! I ain't writing allat
 const ownedAmount = ref('')
 const ownedStatus = ref(true)
@@ -32,10 +35,10 @@ async function fetchCardFromSupabase() {
     .select()
     .eq('card_code', `${route.params.code}`)
   console.log(data)
-  if (!data){
+  if (!data) {
     console.log(error)
-  } else if (data.length === 0){
-    ownedAmount.value = "You do not own this card yet"
+  } else if (data.length === 0) {
+    ownedAmount.value = 'You do not own this card yet'
     ownedStatus.value = false
   } else {
     ownedAmount.value = `You own ${data[0].quantity} copies of this card!`
@@ -79,10 +82,7 @@ function getCardName(code) {
 
 onMounted(() => {
   fetchCardFromSupabase()
-
 })
-
-
 </script>
 
 <style lang="scss" scoped></style>

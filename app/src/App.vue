@@ -216,7 +216,7 @@ async function getDeckID() {
     console.log('No data found in API_credentials table.')
     return
   }
-/*   console.log(data[0].supabaseDeckID) */
+  /*   console.log(data[0].supabaseDeckID) */
   deckStore.yourDeckID = data[0].supabaseDeckID
 }
 
@@ -233,7 +233,7 @@ async function getSettings(uid: string) {
       },
     ])
   } else {
-/*     console.log(existingSettings[0]) */
+    /*     console.log(existingSettings[0]) */
     settingsStore.bubbles = existingSettings[0].bubbles
     settingsStore.currentTheme = existingSettings[0].theme
     settingsStore.pfp = existingSettings[0].pfp

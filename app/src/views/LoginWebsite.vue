@@ -59,6 +59,8 @@ async function signInWithEmail() {
 </script>
 
 <style scoped>
-.p-button.color-3 { background-color: var(--color-3); color: var(--text-color) }
-
+.p-button.color-3 {
+  background-color: var(--color-3);
+  color: var(--text-color);
+}
 </style>

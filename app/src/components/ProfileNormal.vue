@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <h1 class="text-center text-textcolor2"> Click on a card for more information </h1>
+      <h1 class="text-center text-textcolor2">Click on a card for more information</h1>
     </div>
     <div>
       <h1 class="text-textcolor2 text-center text-4xl font-bold">Aces</h1>

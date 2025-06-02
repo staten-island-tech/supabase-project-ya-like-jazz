@@ -87,16 +87,17 @@ onMounted(async () => {
     .style('fill', 'var(--text-color2)')
     .style('font-size', '16px')
 
-    text.append('tspan')
+  text
+    .append('tspan')
     .attr('x', triggerZone.x + triggerZone.width / 2)
     .attr('dy', '1em')
     .text('Drag a ball into this')
 
-    text.append('tspan')
+  text
+    .append('tspan')
     .attr('x', triggerZone.x + triggerZone.width / 2)
     .attr('dy', '1.2em')
     .text('box to view its stats!')
-
 
   const nodes = svg
     .selectAll('circle')
@@ -148,7 +149,6 @@ onMounted(async () => {
         if (inZone && !d._hasTriggered) {
           d._hasTriggered = true
           router.push(`/cardprofile/${d.code}`)
-
         }
       })
     })
@@ -177,11 +177,11 @@ onMounted(async () => {
 })
 
 function getCardName(code) {
-/*   console.log(code) */
+  /*   console.log(code) */
   const number = code.slice(0, 1)
   const suit = code.slice(1, 2)
-/*   console.log(number) */
-/*   console.log(suit) */
+  /*   console.log(number) */
+  /*   console.log(suit) */
   const suitCodes = {
     S: '♠️',
     H: '♥️',

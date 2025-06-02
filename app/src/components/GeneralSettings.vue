@@ -16,7 +16,7 @@
         Activate Normal Profile
       </li>
     </ul>
-    <h1 class="text-xl text-textcolor2"> Change Profile Picture </h1>
+    <h1 class="text-xl text-textcolor2">Change Profile Picture</h1>
     <RouterLink to="/changepfp" class="text-md text-textcolor2 w-24"> Click here </RouterLink>
   </div>
 </template>

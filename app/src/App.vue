@@ -1,11 +1,13 @@
 <template>
   <div
-    :data-theme="themeStore.currentTheme"
+    :data-theme="settingsStore.currentTheme"
     class="min-h-screen bg-1"
     @click="listener && listenerOff()"
   >
     <header>
-      <nav class="sticky bg-2 h-16 p-2 flex justify-between items-center">
+      <nav
+        class="fixed top-0 left-0 right-0 z-50 bg-2 h-16 p-2 flex justify-between items-center shadow-md"
+      >
         <div>
           <RouterLink class="bg-3 hover:bg-hover3 text-textcolor py-2 px-4 rounded" to="/"
             >Home</RouterLink
@@ -29,11 +31,11 @@
           </RouterLink>
 
           <div
-            class="py-2 px-4 ml-2 rounded-full bg-gray-500 flex items-center justify-center text-textcolor text-xl font-bold cursor-pointer"
+            class="w-10 h-10 ml-2 rounded-full bg-gray-500 flex items-center justify-center text-textcolor text-xl font-bold cursor-pointer"
             @click="toggleDropdown()"
             v-if="verified"
           >
-            A
+            <img :src="settingsStore.pfp" class="w-full h-full object-cover rounded-full" />
           </div>
 
           <div
@@ -56,7 +58,9 @@
         </div>
       </nav>
     </header>
-    <RouterView />
+    <div class="pt-16">
+      <RouterView />
+    </div>
   </div>
 </template>
 
@@ -67,12 +71,12 @@ import { computed, ref, type Ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import type { Credentials } from '@/types'
 import { list } from 'postcss'
-import { useThemeStore } from '@/stores/chooseTheme'
+import { useSettingsStore } from '@/stores/settings'
 import { useUserStore } from '@/stores/loggedin'
 import { useDeckStore } from '@/stores/yourDeck'
 
 const deckStore = useDeckStore()
-const themeStore = useThemeStore()
+const settingsStore = useSettingsStore()
 const userStore = useUserStore()
 
 const router = useRouter()
@@ -125,6 +129,50 @@ async function addToUserTable(uid: string, email: string) {
   /*   console.log('Upserted profile:', profileData) */
 }
 
+const { data } = supabase.auth.onAuthStateChange((event, session) => {
+  /*   console.log(event, session) */
+  if (event === 'INITIAL_SESSION') {
+    // handle initial session
+  } else if (event === 'SIGNED_IN') {
+    verified.value = true
+    const identity = ref<Credentials[]>([
+      { uid: `${session?.user.id}`, email: `${session?.user.email}` },
+    ])
+    addToUserTable(identity.value[0].uid, identity.value[0].email)
+    tableCheckpoint(session!.user.id)
+    getSettings(session!.user.id)
+  } else if (event === 'SIGNED_OUT') {
+    localStorage.clear()
+    sessionStorage.clear()
+    router.push('/')
+    verified.value = false
+  } else if (event === 'PASSWORD_RECOVERY') {
+    // handle password recovery event
+  } else if (event === 'TOKEN_REFRESHED') {
+    // handle token refreshed event
+  } else if (event === 'USER_UPDATED') {
+    // handle user updated event
+  }
+})
+async function tableCheckpoint(uid: string) {
+  const { data, error } = await supabase.from('API_credentials').select().eq('uid', uid)
+  if (data) {
+    await getDeckID()
+  } else {
+    console.error('Error fetching API credentials:', error)
+    return
+  }
+
+  if (!data || data.length === 0) {
+    await generateDeckID()
+    await addToApiTable(uid, createdDeckID.value)
+  }
+  /*   deckStore.yourDeckID = data[0].supabaseDeckID */
+  await necessaryAPICalls(
+    `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/draw/?count=52`,
+  )
+}
+
 async function addToApiTable(uid: string, APIDeckID: string) {
   const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
     {
@@ -139,53 +187,13 @@ async function addToApiTable(uid: string, APIDeckID: string) {
   }
   /*   console.log('Upserted profile:', profileData) */
 }
-const { data } = supabase.auth.onAuthStateChange((event, session) => {
-  /*   console.log(event, session) */
-  if (event === 'INITIAL_SESSION') {
-    // handle initial session
-  } else if (event === 'SIGNED_IN') {
-    verified.value = true
-    const identity = ref<Credentials[]>([
-      { uid: `${session?.user.id}`, email: `${session?.user.email}` },
-    ])
-    addToUserTable(identity.value[0].uid, identity.value[0].email)
-    tableCheckpoint(session?.user.id)
-  } else if (event === 'SIGNED_OUT') {
-    localStorage.clear()
-    sessionStorage.clear()
-    router.push('/')
-    verified.value = false
-  } else if (event === 'PASSWORD_RECOVERY') {
-    // handle password recovery event
-  } else if (event === 'TOKEN_REFRESHED') {
-    // handle token refreshed event
-  } else if (event === 'USER_UPDATED') {
-    // handle user updated event
-  }
-})
-async function tableCheckpoint(uid) {
-  const { data, error } = await supabase.from('API_credentials').select()
-
-  if (error) {
-    console.error('Error fetching API credentials:', error)
-    return
-  }
-
-  if (!data || data.length === 0) {
-    await generateDeckID()
-    await addToApiTable(uid, createdDeckID.value)
-  }
-  deckStore.yourDeckID = data[0].supabaseDeckID
-  await necessaryAPICalls(
-    `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/draw/?count=52`,
-  )
-}
 
 async function generateDeckID() {
   try {
     const res = await fetch('https://deckofcardsapi.com/api/deck/new/')
-    if (res.status > 200) {
-      throw new Error(res)
+    if (!res.ok) {
+      const errorText = await res.text()
+      throw new Error(`API error: ${res.status} - ${errorText}`)
     } else {
       const data = await res.json()
       console.log(data.deck_id)
@@ -197,11 +205,48 @@ async function generateDeckID() {
   }
 }
 
-async function necessaryAPICalls(link) {
+async function getDeckID() {
+  const { data, error } = await supabase.from('API_credentials').select()
+
+  if (error) {
+    console.log(error)
+  }
+
+  if (!data || data.length === 0) {
+    console.log('No data found in API_credentials table.')
+    return
+  }
+/*   console.log(data[0].supabaseDeckID) */
+  deckStore.yourDeckID = data[0].supabaseDeckID
+}
+
+async function getSettings(uid: string) {
+  const { data: existingSettings } = await supabase.from('user_settings').select('*').eq('uid', uid)
+
+  if (!existingSettings || existingSettings.length === 0) {
+    const { error: insertError } = await supabase.from('user_settings').insert([
+      {
+        uid: uid,
+        theme: 'default',
+        bubbles: true,
+        pfp: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png',
+      },
+    ])
+  } else {
+/*     console.log(existingSettings[0]) */
+    settingsStore.bubbles = existingSettings[0].bubbles
+    settingsStore.currentTheme = existingSettings[0].theme
+    settingsStore.pfp = existingSettings[0].pfp
+    return existingSettings[0]
+  }
+}
+
+async function necessaryAPICalls(link: string) {
   try {
     const res = await fetch(link)
-    if (res.status > 200) {
-      throw new Error(res)
+    if (!res.ok) {
+      const errorText = await res.text()
+      throw new Error(`API error: ${res.status} - ${errorText}`)
     } else {
       const data = await res.json()
       return data

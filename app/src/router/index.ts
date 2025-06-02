@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('../views/HomeView.vue'),
     },
     {
       path: '/login',
@@ -24,11 +24,11 @@ const router = createRouter({
       name: 'emailverification',
       component: () => import('../views/EmailVerification.vue'),
     },
-        {
+    /*     {
       path: '/testpage',
       name: 'testpage',
-      component: () => import('../views/testPage.vue'),
-    },
+      component: () => import('../components/testPage.vue'),
+    }, */
     {
       path: '/profile',
       name: 'profile',
@@ -48,10 +48,17 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
-      path: '/gsaptesting',
-      name: 'gsaptesting',
-      component: () => import('../views/GsapTesting.vue'),
-    }
+      path: '/changepfp',
+      name: 'changepfp',
+      component: () => import('../views/ChangeProfile.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/cardprofile/:code',
+      name: 'cardprofile',
+      component: () => import('../views/CardProfile.vue'),
+      meta: { requiresAuth: true },
+    },
   ],
 })
 

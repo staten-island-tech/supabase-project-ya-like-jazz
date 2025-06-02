@@ -13,12 +13,11 @@
         <input type="text" class="border-solid border-4" v-model="password" />
       </div>
 
-      <div>
+      <div class="">
         <Button
           label="Login"
           @click="signInWithEmail()"
-          class="m-2 p-2 color-3"
-          severity="success"
+          class="m-2 p-2 color-3 text-white"
         ></Button>
       </div>
       <div>
@@ -34,10 +33,12 @@ import router from '@/router/index'
 import { supabase } from '../lib/supabaseClient.ts'
 import { ref } from 'vue'
 import { useUserStore } from '../stores/loggedin.ts'
+import { useDeckStore } from '../stores/yourDeck.ts'
 
 const username = ref('') // Should convert this to TypeScript
 const password = ref('')
 const userStore = useUserStore()
+const deckStore = useDeckStore()
 
 async function signInWithEmail() {
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -48,8 +49,8 @@ async function signInWithEmail() {
   console.log(data, error)
 
   if (!error) {
-    userStore.login()
-    router.push('/profile')
+    userStore.login({ uid: data.user.id, email: data.user.email! }, data.session.access_token)
+    router.push('/')
   } else {
     alert('Login failed!')
   }
@@ -57,4 +58,7 @@ async function signInWithEmail() {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.p-button.color-3 { background-color: var(--color-3); color: var(--text-color) }
+
+</style>

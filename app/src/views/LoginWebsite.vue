@@ -13,12 +13,11 @@
         <input type="text" class="border-solid border-4" v-model="password" />
       </div>
 
-      <div>
+      <div class="">
         <Button
           label="Login"
           @click="signInWithEmail()"
-          class="m-2 p-2 color-3"
-          severity="success"
+          class="m-2 p-2 color-3 text-white"
         ></Button>
       </div>
       <div>
@@ -50,14 +49,16 @@ async function signInWithEmail() {
   console.log(data, error)
 
   if (!error) {
-    userStore.login({uid: data.user.id, email: data.user.email!}, data.session.access_token)
-    router.push('/profile')
+    userStore.login({ uid: data.user.id, email: data.user.email! }, data.session.access_token)
+    router.push('/')
   } else {
     alert('Login failed!')
   }
   // userStore.login() = Needs fixing
 }
-
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.p-button.color-3 { background-color: var(--color-3); color: var(--text-color) }
+
+</style>

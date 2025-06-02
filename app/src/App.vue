@@ -35,10 +35,7 @@
             @click="toggleDropdown()"
             v-if="verified"
           >
-            <img
-              :src="settingsStore.pfp"
-              class="w-full h-full object-cover rounded-full"
-            />
+            <img :src="settingsStore.pfp" class="w-full h-full object-cover rounded-full" />
           </div>
 
           <div
@@ -158,12 +155,9 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
   }
 })
 async function tableCheckpoint(uid: string) {
-  const { data, error } = await supabase.
-  from('API_credentials')
-  .select()
-  .eq('uid', uid)
+  const { data, error } = await supabase.from('API_credentials').select().eq('uid', uid)
   if (data) {
-      await getDeckID()
+    await getDeckID()
   } else {
     console.error('Error fetching API credentials:', error)
     return
@@ -178,7 +172,6 @@ async function tableCheckpoint(uid: string) {
     `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/draw/?count=52`,
   )
 }
-
 
 async function addToApiTable(uid: string, APIDeckID: string) {
   const { data: profileData, error: profileError } = await supabase.from('API_credentials').insert([
@@ -199,7 +192,7 @@ async function generateDeckID() {
   try {
     const res = await fetch('https://deckofcardsapi.com/api/deck/new/')
     if (!res.ok) {
-     const errorText = await res.text()
+      const errorText = await res.text()
       throw new Error(`API error: ${res.status} - ${errorText}`)
     } else {
       const data = await res.json()
@@ -212,19 +205,18 @@ async function generateDeckID() {
   }
 }
 
-
 async function getDeckID() {
   const { data, error } = await supabase.from('API_credentials').select()
- 
-    if(error) {
-      console.log(error)
-    }
 
-    if (!data || data.length === 0) {
+  if (error) {
+    console.log(error)
+  }
+
+  if (!data || data.length === 0) {
     console.log('No data found in API_credentials table.')
     return
   }
-  console.log(data[0].supabaseDeckID)
+/*   console.log(data[0].supabaseDeckID) */
   deckStore.yourDeckID = data[0].supabaseDeckID
 }
 
@@ -237,19 +229,17 @@ async function getSettings(uid: string) {
         uid: uid,
         theme: 'default',
         bubbles: true,
-        pfp: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png'
+        pfp: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png',
       },
     ])
-
   } else {
-    console.log(existingSettings[0])
+/*     console.log(existingSettings[0]) */
     settingsStore.bubbles = existingSettings[0].bubbles
     settingsStore.currentTheme = existingSettings[0].theme
     settingsStore.pfp = existingSettings[0].pfp
     return existingSettings[0]
   }
 }
-
 
 async function necessaryAPICalls(link: string) {
   try {

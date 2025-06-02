@@ -7,7 +7,9 @@ export const useSettingsStore = defineStore(
   () => {
     const bubbles = ref(false)
     const currentTheme = ref('default')
-    const pfp = ref('https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png')
+    const pfp = ref(
+      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png',
+    )
 
     watch([currentTheme, bubbles, pfp], async () => {
       const uid = await getUserUid()

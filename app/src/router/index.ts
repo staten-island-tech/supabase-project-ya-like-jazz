@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('../views/HomeView.vue'),
     },
     {
       path: '/login',
@@ -47,10 +47,16 @@ const router = createRouter({
       component: () => import('../views/PlayPage.vue'),
       meta: { requiresAuth: true },
     },
-        {
+    {
       path: '/changepfp',
       name: 'changepfp',
-      component: () => import('../views/changeProfile.vue'),
+      component: () => import('../views/ChangeProfile.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/cardprofile/:code',
+      name: 'cardprofile',
+      component: () => import('../views/CardProfile.vue'),
       meta: { requiresAuth: true },
     },
   ],

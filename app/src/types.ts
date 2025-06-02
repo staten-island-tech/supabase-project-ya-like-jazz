@@ -19,5 +19,5 @@ export interface CardCollection {
   value: number
 }
 
-export type Suits = 'Diamonds' | 'Clubs' | 'Hearts' | 'Spades' 
+export type Suits = 'Diamonds' | 'Clubs' | 'Hearts' | 'Spades'
 export type Numbers = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 'Jack' | 'Queen' | 'King' | 'Ace'

@@ -5,6 +5,7 @@
       <button @click="spinForSet()">Spin</button>
       <h1 v-if="number && suit">{{ number }} of {{ suit }}</h1>
       <img :src="imageURL" v-if="number && suit" />
+      <img :src="defaultImage" v-if="!number && !suit" class="mt-4"
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ const number = ref<Numbers>()
 const suit = ref<Suits>()
 const code = computed(() => getCardCode(number.value!, suit.value!))
 const imageURL = computed(() => `https://deckofcardsapi.com/static/img/${code.value}.png`)
+const defaultImage = 'https://deckofcardsapi.com/static/img/back.png'
 const quantity = ref(1)
 
 function spinForSet() {
@@ -59,15 +61,15 @@ function getCardCode(number: Numbers, suit: Suits) {
   const suitCodes: Record<Suits, string> = {
     Spades: 'S',
     Hearts: 'H',
+    Clubs: 'C',    
     Diamonds: 'D',
-    Clubs: 'C',
   }
 
   const numberCodes: Record<Numbers, string> = {
     Ace: 'A',
-    Jack: 'J',
-    Queen: 'Q',
     King: 'K',
+    Queen: 'Q',
+    Jack: 'J',    
     10: '0', // in the api 10 === 0 for some reason
     9: '9',
     8: '8',
@@ -145,7 +147,7 @@ async function updateDeckTable(code: string) {
     .select()
   console.log(data)
   if (error) {
-    console.error('Error updating profile:', profileError)
+    console.error('Error updating profile:', error)
     return
   }
 }

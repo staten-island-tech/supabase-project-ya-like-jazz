@@ -1,14 +1,10 @@
 <template>
-  <div>
-    <div class="box"></div>
-    <Button label=""></Button>
-  </div>
+  <ClubAnimation></ClubAnimation>
 </template>
 
 <script setup lang="ts">
 import { gsap } from 'gsap'
-
-gsap.to('.box', { x: 40 })
+import { ClubAnimation } from '@/components/ClubAnimation.vue'
 </script>
 
 <style scoped></style>

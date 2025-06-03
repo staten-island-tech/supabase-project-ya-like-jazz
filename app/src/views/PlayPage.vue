@@ -5,7 +5,7 @@
       <button @click="spinForSet()">Spin</button>
       <h1 v-if="number && suit">{{ number }} of {{ suit }}</h1>
       <img :src="imageURL" v-if="number && suit" />
-      <img :src="defaultImage" v-if="!number && !suit" class="mt-4"
+      <img :src="defaultImage" v-if="!number && !suit" class="mt-4" />
     </div>
   </div>
 </template>
@@ -61,7 +61,7 @@ function getCardCode(number: Numbers, suit: Suits) {
   const suitCodes: Record<Suits, string> = {
     Spades: 'S',
     Hearts: 'H',
-    Clubs: 'C',    
+    Clubs: 'C',
     Diamonds: 'D',
   }
 
@@ -69,7 +69,7 @@ function getCardCode(number: Numbers, suit: Suits) {
     Ace: 'A',
     King: 'K',
     Queen: 'Q',
-    Jack: 'J',    
+    Jack: 'J',
     10: '0', // in the api 10 === 0 for some reason
     9: '9',
     8: '8',

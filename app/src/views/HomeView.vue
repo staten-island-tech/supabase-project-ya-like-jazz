@@ -1,7 +1,6 @@
 <template>
   <div>
     <div v-if="!userStore.loggedIn">
-      <h1 class="text-textcolor2" @click="console.log(userStore.loggedIn)">Hello</h1>
       <StartingPage />
     </div>
     <div v-if="userStore.loggedIn">

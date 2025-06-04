@@ -1,11 +1,10 @@
 <template>
-  <h1>We have sent you an email</h1>
+  <div>
+    <h1>We have sent you an email</h1>
+    <TestPage1 />
+  </div>
 </template>
 
-<script lang="ts">
-import { ref } from 'vue'
-export function isVerified() {
-  const Verified = ref(false)
-  return { Verified }
-}
+<script setup lang="ts">
+import TestPage1 from '@/components/testPage1.vue'
 </script>

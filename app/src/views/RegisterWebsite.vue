@@ -1,36 +1,81 @@
 <template>
-  <div
-    class="flex container justify-center items-center justify-self-center border-solid border-2 border-black rounded-lg object-cover w-[20%] h-full3"
-  >
-    <div class="object-contain p-2 m-2 justify-items-center">
-      <h1 class="text-textcolor2 font-bold text-[20px]">Welcome!</h1>
-      <div class="justify-start">
-        <label for="username">Username </label>
-        <input type="text" class="border-solid border-4" v-model="username" />
-      </div>
-      <div class="justify-start">
-        <label for="password">Password </label>
-        <input type="text" class="border-solid border-4" v-model="password" />
-      </div>
+  <div>
+    <div
+      class="flex container justify-center items-center justify-self-center border-solid border-2 border-black rounded-lg object-cover w-[25%] h-[100%] mt-6"
+    >
+      <div class="object-contain p-2 m-2 justify-items-center">
+        <h1 class="text-color-3 font-bold text-[40px]">Welcome!</h1>
+        <div class="flex justify-end p-2">
+          <input type="text" class="border-solid border-4" placeholder="Email" v-model="username" />
+        </div>
+        <div class="flex justify-end">
+          <input type="text" class="border-solid border-4" placeholder="Password" v-model="password" />
+        </div>
 
-      <div>
-        <Button label="Register" @click="signUpNewUser()" class="m-2 p-2 color-3"></Button>
+        <div class="">
+          <Button
+            label="Sign Up"
+            @click="signUpNewUser()"
+            class="m-2 p-2 color-3 text-white"
+          ></Button>
+        </div>
+        <div>
+          <h2>Returning User?</h2>
+          <router-link to="/login" class="text-color-3 font-bold flex justify-center"> Click here! </router-link>
+        </div>
       </div>
-      <div>
-        <h2>Returning User?</h2>
-        <router-link to="/login"> Click here! </router-link>
+    </div>
+
+    <div class="w-full max-w-md bg-white border-2 border-black rounded-lg p-4 shadow-md relative h-64 overflow-visible mt-10 mx-auto">
+      <button
+        @click="onLaunchClick()"
+        class="mb-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+      >
+        Launch Card
+      </button>
+      <div class="relative w-full h-full">
+        <div
+          v-for="card in cards"
+          :key="card.id"
+          class="w-24 h-36 bg-white border-2 border-black rounded-lg shadow-md flex items-center justify-center text-5xl pointer-events-none select-none will-change-transform will-change-opacity z-10 absolute left-1/2 bottom-0 -translate-x-1/2 -translate-y-8"
+          :ref="el => cardRefs.set(card.id, el)"
+          style="opacity: 0;"
+        >
+          <img src="https://deckofcardsapi.com/static/img/back.png" />
+        </div>
+
+        <!-- 10 Placeholder Cards stacked -->
+        <img
+          v-for="i in 10"
+          :key="'placeholder-' + i"
+          src="https://deckofcardsapi.com/static/img/back.png"
+          class="placeholderCard w-24 h-36 absolute left-1/2 -translate-x-1/2"
+          :style="{ bottom: `${i * 6}px`, zIndex: i }"
+        />
       </div>
+    </div>
+
+    <img src="/box.png" class="w-50 h-36 absolute top-1/8 left-1/2 h-1/2 -translate-x-1/2 -translate-y-24 z-20" />
+    <div v-if="eventFinished">
+    <testPage />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import testPage from '@/components/testPage.vue'
 import router from '@/router/index.ts'
 import { supabase } from '../lib/supabaseClient.ts'
-import { ref } from 'vue'
+import { ref, reactive, nextTick, onMounted } from 'vue'
 
 import Button from 'primevue/button'
 import Card from 'primevue/card'
+
+import { gsap } from 'gsap'
+import { Physics2DPlugin } from 'gsap/Physics2DPlugin'
+import { CustomEase } from 'gsap/CustomEase'
+import { event } from '@primeuix/themes/aura/timeline'
+gsap.registerPlugin(Physics2DPlugin, CustomEase)
 
 const username = ref('')
 const password = ref('')
@@ -45,6 +90,154 @@ async function signUpNewUser() {
   })
   console.log(data, error)
 }
+
+const placeholderAnims: gsap.core.Tween[] = []
+const eventFinished = ref(false)
+onMounted(() => {
+  const placeholders = document.querySelectorAll('.placeholderCard')
+  if (!placeholders.length) return
+
+  placeholders.forEach((card, index) => {
+    gsap.set(card, {
+      rotation: 20,
+      opacity: 1,
+      y: '-2rem',
+      transformOrigin: 'bottom center',
+    })
+
+    const anim = gsap.to(card, {
+      y: '-2rem',
+      rotation: -20,
+      opacity: 1,
+      duration: 0.5,
+      delay: index * 0.1,
+      yoyo: true,
+      repeat: -1,
+      ease: 'power4.inOut',
+    })
+
+    placeholderAnims.push(anim)
+  })
+})
+
+function pausePlaceholderAnimations() {
+  placeholderAnims.forEach(anim => anim.pause())
+}
+
+function resumePlaceholderAnimations() {
+  placeholderAnims.forEach(anim => anim.resume())
+}
+
+const cards = reactive<{ id: number }[]>([])
+let nextId = 0
+const cardRefs = new Map<number, HTMLElement>()
+
+function onLaunchClick() {
+  // Pause placeholder animations
+  pausePlaceholderAnimations()
+
+  // Run new animation on placeholders
+  placeholderAnims.forEach((anim, i) => {
+    gsap.to(anim.targets(), {
+      rotation: 0,
+      y: 0,
+      duration: 0.5,
+      delay: i * 0.05,
+      onComplete: () => {
+        gsap.to(anim.targets(), { opacity: 0, duration: 0.5 })
+      },
+    })
+  })
+  setTimeout(() => {
+    launchTenCards()
+  }, 2000)
+}
+
+function launchTenCards() {
+  for (let i = 0; i < 100; i++) {
+    launchCard()
+  }
+}
+
+function launchCard() {
+  const id = nextId++
+  cards.push({ id })
+
+  nextTick(() => {
+    setTimeout(() => {
+      const el = cardRefs.get(id)
+      if (!el) return
+      gsap.set(el, {
+        scale: 1,
+        opacity: 0,
+      })
+
+      const randomX = gsap.utils.random(-50, 50)
+
+      const tl = gsap.timeline({
+        onComplete: () => { 
+          const index = cards.findIndex(c => c.id === id)
+          if (index !== -1) cards.splice(index, 1)
+          cardRefs.delete(id)
+          delayedNavigate()
+        },
+      })
+      tl.to(el, {
+        opacity: 1,
+        duration: 0.5,
+        ease: 'power4.inOut',
+      })
+      tl.to(el, {
+        duration: 0.1,
+        y: -20,
+        rotation: gsap.utils.random(-30, 30),
+        ease: 'sine.inOut',
+        repeat: 5,
+        yoyo: true,
+      })
+
+      tl.to(el, {
+        duration: 0.15,
+        y: -15,
+        rotation: 0,
+        ease: 'sine.inOut',
+        repeat: 5,
+        yoyo: true,
+      })
+      tl.to(el, {
+        duration: 3,
+        scale: 2,
+        physics2D: {
+          velocity: 1000,
+          angle: gsap.utils.random(200, 330),
+          gravity: 200,
+        },
+        rotation: '+=720',
+        opacity: 0,
+        ease: 'power4.out',
+      })
+          eventFinished.value = true
+          delayedNavigate()
+    }, 0)
+
+  })
+}
+
+
+function delayedNavigate() {
+  setTimeout(() => {
+    router.push('/emailverification')
+  }, 7000)
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.p-button.color-3 {
+  background-color: var(--color-3);
+  color: var(--text-color);
+}
+.p-button.color-3:hover {
+  background-color: var(--color-3);
+  color: var(--text-color);
+}
+</style>

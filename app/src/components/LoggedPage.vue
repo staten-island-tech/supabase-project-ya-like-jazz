@@ -65,7 +65,7 @@ onMounted(() => {
       y: i * 5,
       rotation: angles[i],
       opacity: 1,
-      duration: 3,
+      duration: 3.2,
       delay: i * 0.1,
       yoyo: true,
       repeat: -1,

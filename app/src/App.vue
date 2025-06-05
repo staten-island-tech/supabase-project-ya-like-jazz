@@ -74,7 +74,9 @@ import { list } from 'postcss'
 import { useSettingsStore } from '@/stores/settings'
 import { useUserStore } from '@/stores/loggedin'
 import { useDeckStore } from '@/stores/yourDeck'
+import { useAnimationStore } from './stores/animation'
 
+const animationStore = useAnimationStore()
 const deckStore = useDeckStore()
 const settingsStore = useSettingsStore()
 const userStore = useUserStore()
@@ -145,6 +147,7 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     localStorage.clear()
     sessionStorage.clear()
     router.push('/')
+    settingsStore.currentTheme = 'default'
     verified.value = false
   } else if (event === 'PASSWORD_RECOVERY') {
     // handle password recovery event
@@ -233,11 +236,13 @@ async function getSettings(uid: string) {
       },
     ])
   } else {
-    /*     console.log(existingSettings[0]) */
-    settingsStore.bubbles = existingSettings[0].bubbles
-    settingsStore.currentTheme = existingSettings[0].theme
     settingsStore.pfp = existingSettings[0].pfp
-    return existingSettings[0]
+    settingsStore.bubbles = existingSettings[0].bubbles
+    setTimeout(() => {
+      animationStore.animation = false
+      settingsStore.currentTheme = existingSettings[0].theme
+      return existingSettings[0]
+    }, 11000)
   }
 }
 

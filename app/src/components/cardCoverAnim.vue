@@ -1,14 +1,19 @@
 <template>
-  <div class="relative w-screen h-screen select-none overflow-hidden cursor-pointer" @click="toggleCover">
+  <div v-if="animationStore.animation"
+    class="relative w-screen h-screen select-none overflow-hidden cursor-pointer"
+    @click="toggleCover"
+  >
     <div
       v-for="(card, i) in cards"
       :key="i"
-      :ref="el => cardRefs[i] = el"
-       class="fixed rounded-lg text-white font-bold text-lg flex justify-center items-center
-           shadow-md select-none transition-shadow duration-300 cursor-pointer origin-center hover:shadow-xl"
+      :ref="(el) => (cardRefs[i] = el)"
+      class="fixed rounded-lg text-white font-bold text-lg flex justify-center items-center shadow-md select-none transition-shadow duration-300 cursor-pointer origin-center hover:shadow-xl"
       :style="{ opacity: 0 }"
     >
-      <img src="https://deckofcardsapi.com/static/img/back.png" class="w-full h-full object-cover rounded-lg"/>
+      <img
+        src="https://deckofcardsapi.com/static/img/back.png"
+        class="w-full h-full object-cover rounded-lg"
+      />
     </div>
   </div>
 </template>
@@ -16,11 +21,12 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue'
 import { gsap } from 'gsap'
+import { useAnimationStore } from '@/stores/animation'
+const animationStore = useAnimationStore()
 
 const cardWidth = 96
 const cardHeight = 144
-const rotations = [-12, -8, -4, 0, 4, 8, 12, 16, 20, 24];
-
+const rotations = [-12, -8, -4, 0, 4, 8, 12, 16, 20, 24]
 
 const cards = reactive(
   Array.from({ length: 10 }).map((_, i) => ({
@@ -32,12 +38,11 @@ const cards = reactive(
       height: `${cardHeight}px`,
       rotate: `${rotations[i]}deg`,
     },
-  }))
+  })),
 )
 
 const cardRefs = []
 const covered = ref(false)
-
 
 const coverPositions = [
   { top: '0', left: '0', width: '20vw', height: '50vh' },
@@ -52,12 +57,12 @@ const coverPositions = [
   { top: '50vh', left: '80vw', width: '20vw', height: '50vh' },
 ]
 
-const resetDelayMs = 500 
 function animateToCover() {
   cardRefs.forEach((el, i) => {
     if (!el) return
-    gsap.fromTo(el,
-      { 
+    gsap.fromTo(
+      el,
+      {
         y: -window.innerHeight - 200,
         rotation: cards[i].style.rotate,
         opacity: 0,
@@ -76,17 +81,11 @@ function animateToCover() {
         delay: i * 0.1,
         zIndex: 100 + i,
         position: 'fixed',
-        onComplete: i === cardRefs.length - 1 ? () => {
-          setTimeout(() => {
-            animateToOriginal()
-          }, resetDelayMs)
-        } : null,
-      }
+      },
     )
   })
   covered.value = true
 }
-
 
 /* function animateToOriginal() {
   cardRefs.forEach((el, i) => {
@@ -119,7 +118,7 @@ function animateToCover() {
 
 function toggleCover() {
   if (covered.value) {
-/*     animateToOriginal() */
+    /*     animateToOriginal() */
   } else {
     animateToCover()
   }
@@ -128,9 +127,8 @@ function toggleCover() {
 onMounted(() => {
   setTimeout(() => {
     animateToCover()
-  }, 4000) 
+  }, 4000)
 })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

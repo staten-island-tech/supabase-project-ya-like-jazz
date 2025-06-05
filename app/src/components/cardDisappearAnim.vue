@@ -1,11 +1,10 @@
 <template>
-  <div class="relative w-screen h-screen select-none overflow-hidden">
+  <div v-if="animationStore.animation" class="relative w-screen h-screen select-none overflow-hidden">
     <div
       v-for="(card, i) in cards"
       :key="i"
-      :ref="el => cardRefs[i] = el"
-      class="fixed rounded-lg text-white font-bold text-lg flex justify-center items-center
-             shadow-md select-none origin-center hover:shadow-xl"
+      :ref="(el) => (cardRefs[i] = el)"
+      class="fixed rounded-lg text-white font-bold text-lg flex justify-center items-center shadow-md select-none origin-center hover:shadow-xl"
       :style="getCoverStyle(i, true)"
     >
       <img
@@ -19,11 +18,13 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue'
 import { gsap } from 'gsap'
+import { useAnimationStore } from '@/stores/animation'
+
+const animationStore = useAnimationStore()
 
 const cardWidth = 96
 const cardHeight = 144
-const rotations = [-12, -8, -4, 0, 4, 8, 12, 16, 20, 24];
-
+const rotations = [-12, -8, -4, 0, 4, 8, 12, 16, 20, 24]
 
 const cards = reactive(
   Array.from({ length: 10 }).map((_, i) => ({
@@ -36,7 +37,7 @@ const cards = reactive(
       height: `${cardHeight}px`,
       borderRadius: '16px',
     },
-  }))
+  })),
 )
 
 const cardRefs = []
@@ -116,5 +117,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

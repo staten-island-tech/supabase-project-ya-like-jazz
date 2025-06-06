@@ -2,15 +2,21 @@
   <div>
     <div class="flex h-screen bg-1">
       <div class="w-64 flex justify-end p-5">
-        <SettingsTab />
+        <tabSettings />
         <p class="mt-2"></p>
       </div>
       <div class="flex-1 p-5">
         <div v-if="tab === 1">
-          <GeneralSettings />
+          <settingsThemes />
         </div>
         <div v-if="tab === 2">
-          <h1>Hey</h1>
+          <settingsCollection />
+        </div>
+        <div v-if="tab === 3">
+          <settingsProfile />
+        </div>
+        <div v-if="tab === 4">
+          <settingsTutorial />
         </div>
       </div>
     </div>
@@ -18,8 +24,11 @@
 </template>
 
 <script setup>
-import SettingsTab from '@/components/SettingsTab.vue'
-import GeneralSettings from '@/components/GeneralSettings.vue'
+import tabSettings from '@/components/settingsComps/tabSettings.vue'
+import settingsThemes from '@/components/settingsComps/settingsThemes.vue'
+import settingsCollection from '@/components/settingsComps/settingsCollection.vue'
+import settingsProfile from '@/components/settingsComps/settingsProfile.vue'
+import settingsTutorial from '@/components/settingsComps/settingsTutorial.vue'
 import { useTab } from '@/stores/useTab'
 
 const { tab } = useTab()

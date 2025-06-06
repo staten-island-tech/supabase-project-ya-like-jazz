@@ -1,7 +1,7 @@
 <template>
   <div
     :data-theme="settingsStore.currentTheme"
-    class="min-h-screen h-[300vh] bg-1"
+    class="min-h-screen bg-1"
     @click="listener && listenerOff()"
   >
     <header>

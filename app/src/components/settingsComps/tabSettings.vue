@@ -5,25 +5,26 @@
         @click="changeTab(1)"
         class="cursor-pointer text-xl text-textcolor hover:bg-hover3 rounded-lg h-8 flex justify-end"
       >
-        General
+        Theme
       </li>
       <li
         @click="changeTab(2)"
         class="cursor-pointer text-xl mt-2 text-textcolor hover:bg-hover3 rounded-lg h-8 flex justify-end"
       >
-        Random1
+        Card Collection
+
       </li>
       <li
         @click="changeTab(3)"
         class="cursor-pointer text-xl mt-2 text-textcolor hover:bg-hover3 rounded-lg h-8 flex justify-end"
       >
-        Random2
+        Profile Picture
       </li>
       <li
         @click="changeTab(4)"
         class="cursor-pointer text-xl mt-2 text-textcolor hover:bg-hover3 rounded-lg h-8 flex justify-end w-36"
       >
-        Random3
+        How do I play?
       </li>
     </ul>
   </div>

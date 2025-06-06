@@ -42,7 +42,7 @@ onMounted(() => {
         rotation: 360,
       },
       0,
-    ) // All start at the same time
+    ) // Done by ChatGPT (I'll modify it as I see fit)
   })
 })
 </script>

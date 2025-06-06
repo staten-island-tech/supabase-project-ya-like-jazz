@@ -1,5 +1,5 @@
 <template>
-  <ClubAnimation></ClubAnimation>
+  <!-- <ClubAnimation></ClubAnimation> -->
 </template>
 
 <script setup lang="ts">

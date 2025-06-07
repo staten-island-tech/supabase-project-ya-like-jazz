@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="overflow-x-hidden">
     <div
       class="flex container justify-center items-center justify-self-center border-solid border-2 border-black rounded-lg object-cover w-[25%] h-full mt-6 mb-24"
     >
@@ -43,7 +43,7 @@
           :ref="(el) => cardRefs.set(card.id, el)"
           style="opacity: 0"
         >
-          <img src="https://deckofcardsapi.com/static/img/back.png" />
+          <img src="https://deckofcardsapi.com/static/img/back.png" draggable="false" />
         </div>
 
         <img
@@ -51,6 +51,7 @@
           :key="'placeholder-' + i"
           src="https://deckofcardsapi.com/static/img/back.png"
           class="placeholderCard w-24 h-36 absolute left-1/2 -translate-x-1/2"
+          draggable="false"
           :style="{ bottom: `${i * 6}px`, zIndex: i }"
         />
       </div>
@@ -77,7 +78,7 @@ import { Physics2DPlugin } from 'gsap/Physics2DPlugin'
 import { CustomEase } from 'gsap/CustomEase'
 import { useUserStore } from '@/stores/loggedin'
 import { useAnimationStore } from '@/stores/animation'
-
+import { useSettingsStore } from '@/stores/settings'
 const animationStore = useAnimationStore()
 const userStore = useUserStore()
 gsap.registerPlugin(Physics2DPlugin, CustomEase)

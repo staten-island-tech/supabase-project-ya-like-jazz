@@ -16,7 +16,7 @@
           <settingsProfile />
         </div>
         <div v-if="tab === 4">
-          <settingsTutorial />
+          <settingsLogout />
         </div>
       </div>
     </div>
@@ -28,7 +28,7 @@ import tabSettings from '@/components/settingsComps/tabSettings.vue'
 import settingsThemes from '@/components/settingsComps/settingsThemes.vue'
 import settingsCollection from '@/components/settingsComps/settingsCollection.vue'
 import settingsProfile from '@/components/settingsComps/settingsProfile.vue'
-import settingsTutorial from '@/components/settingsComps/settingsTutorial.vue'
+import settingsLogout from '@/components/settingsComps/settingsLogout.vue'
 import { useTab } from '@/stores/useTab'
 
 const { tab } = useTab()

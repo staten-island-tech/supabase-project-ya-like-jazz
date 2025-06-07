@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-[100vh]">
     <div class="mt-8 absolute top-1/8 left-1/2 w-1/2 h-1/2 -translate-x-1/2 z-20">
       <div
         class="flex justify-center p-4 border bg-3 border-3 hover:bg-hover3 rounded-lg w-fit mx-auto"
@@ -18,6 +18,7 @@
           <img
             :src="`https://deckofcardsapi.com/static/img/${numbers[i]}.png`"
             class="w-full h-full object-cover rounded shadow-md"
+            draggable="false"
           />
         </div>
       </div>

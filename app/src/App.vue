@@ -35,7 +35,7 @@
             @click="toggleDropdown()"
             v-if="verified"
           >
-            <img :src="settingsStore.pfp" class="w-full h-full object-cover rounded-full" />
+            <img :src="settingsStore.pfp" class="w-full h-full object-cover rounded-full" draggable="false" />
           </div>
 
           <div
@@ -136,7 +136,6 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
   if (event === 'INITIAL_SESSION') {
     // handle initial session
   } else if (event === 'SIGNED_IN') {
-    verified.value = true
     const identity = ref<Credentials[]>([
       { uid: `${session?.user.id}`, email: `${session?.user.email}` },
     ])
@@ -236,11 +235,12 @@ async function getSettings(uid: string) {
       },
     ])
   } else {
-    settingsStore.pfp = existingSettings[0].pfp
-    settingsStore.bubbles = existingSettings[0].bubbles
     setTimeout(() => {
+      settingsStore.pfp = existingSettings[0].pfp
+      settingsStore.bubbles = existingSettings[0].bubbles
       animationStore.animation = false
       settingsStore.currentTheme = existingSettings[0].theme
+      verified.value = true
       return existingSettings[0]
     }, 11000)
   }
@@ -263,12 +263,5 @@ async function necessaryAPICalls(link: string) {
 </script>
 
 <style scoped>
-html, body, #app {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: var(--color-1);
-  overflow-x: hidden;
-}
 
 </style>

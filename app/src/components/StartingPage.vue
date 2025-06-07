@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="h-[110vh]">
     <h1 class="hello">Hello</h1>
     <div class="absolute top-1/2 left-1/2 w-1/2 h-1/2 -translate-x-1/2 translate-y-24">
       <div
@@ -11,6 +11,7 @@
         <img
           :src="`https://deckofcardsapi.com/static/img/${codes[i]}${suitValue}.png`"
           class="w-full h-full object-cover rounded shadow-md"
+          draggable="false"
         />
       </div>
       <div
@@ -22,6 +23,7 @@
         <img
           src="https://deckofcardsapi.com/static/img/back.png"
           class="w-full h-full object-cover rounded shadow-md"
+          draggable="false"
         />
       </div>
     </div>
@@ -30,7 +32,7 @@
 
 <script setup>
 import { gsap } from 'gsap'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, nextTick } from 'vue'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
 
@@ -66,12 +68,15 @@ function changeSuit() {
 }
 
 // 6 rem * 9 rem
-onMounted(() => {
+onMounted(async () => {
+  await nextTick()
+
   gsap.to('.hello', {
     duration: 2,
     text: 'This is the new text',
     ease: 'none',
   })
+
   cardRefs.value.forEach((cardBack) => {
     if (!cardBack) return
     gsap.set(cardBack, {
@@ -81,6 +86,7 @@ onMounted(() => {
       transformOrigin: 'center center',
     })
   })
+
   cards.value.forEach((card, i) => {
     if (!card) return
     gsap.set(card, {
@@ -131,6 +137,9 @@ onMounted(() => {
             onComplete: () => {
               changeSuit()
               const cardBack = cardRefs.value[i]
+              if (!cardBack) {
+                return
+              }
               gsap
                 .timeline({ repeat: 0 })
                 .set(cardBack, {

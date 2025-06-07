@@ -23,7 +23,7 @@
         @click="changeTab(4)"
         class="cursor-pointer text-xl mt-2 text-textcolor hover:bg-hover3 rounded-lg h-8 flex justify-end w-36"
       >
-        How do I play?
+        Log Out
       </li>
     </ul>
   </div>

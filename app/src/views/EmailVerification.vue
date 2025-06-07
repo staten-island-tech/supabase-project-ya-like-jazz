@@ -12,8 +12,6 @@ import { useAnimationStore } from '@/stores/animation'
 const animationStore = useAnimationStore()
 
 setTimeout(() => {
-      animationStore.animation = false
-
+  animationStore.animation = false
 }, 2000)
-
 </script>

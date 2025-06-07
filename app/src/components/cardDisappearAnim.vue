@@ -1,5 +1,8 @@
 <template>
-  <div v-if="animationStore.animation" class="relative w-screen h-screen select-none overflow-hidden">
+  <div
+    v-if="animationStore.animation"
+    class="relative w-screen h-screen select-none overflow-hidden"
+  >
     <div
       v-for="(card, i) in cards"
       :key="i"

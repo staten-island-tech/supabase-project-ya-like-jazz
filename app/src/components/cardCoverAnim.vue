@@ -1,5 +1,6 @@
 <template>
-  <div v-if="animationStore.animation"
+  <div
+    v-if="animationStore.animation"
     class="relative w-screen h-screen select-none overflow-hidden cursor-pointer"
     @click="toggleCover"
   >

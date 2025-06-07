@@ -24,7 +24,7 @@ const router = createRouter({
       name: 'emailverification',
       component: () => import('../views/EmailVerification.vue'),
     },
-/*     {
+    /*     {
       path: '/testpage',
       name: 'testpage',
       component: () => import('../components/testPage.vue'),

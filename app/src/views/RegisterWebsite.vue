@@ -111,7 +111,6 @@ async function signUpNewUser() {
   animationStore.animation = true
 }
 
-
 onMounted(() => {
   const placeholders = document.querySelectorAll('.placeholderCard')
   if (!placeholders.length) return

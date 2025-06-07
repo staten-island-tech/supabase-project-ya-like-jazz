@@ -12,7 +12,6 @@
         class="cursor-pointer text-xl mt-2 text-textcolor hover:bg-hover3 rounded-lg h-8 flex justify-end"
       >
         Card Collection
-
       </li>
       <li
         @click="changeTab(3)"

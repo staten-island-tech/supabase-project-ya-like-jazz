@@ -4,8 +4,8 @@
     <div>
       <button @click="spinForSet()">Spin</button>
       <h1 v-if="number && suit">{{ number }} of {{ suit }}</h1>
-      <img :src="imageURL" v-if="number && suit" />
-      <img :src="defaultImage" v-if="!number && !suit" class="mt-4" />
+      <img :src="imageURL" v-if="number && suit" draggable="false" />
+      <img :src="defaultImage" v-if="!number && !suit" class="mt-4" draggable="false" />
     </div>
   </div>
 </template>

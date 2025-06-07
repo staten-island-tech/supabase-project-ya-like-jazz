@@ -23,7 +23,7 @@
       </button>
     </div>
     <div class="flex justify-center p-2">
-      <img :src="settingsStore.pfp" class="w-80 h-80" />
+      <img :src="settingsStore.pfp" class="w-80 h-80" draggable="false" />
     </div>
     <div class="absolute top-[40rem] left-1/2 w-1/2 h-1/2 -translate-x-1/2 z-10"
       :style="{ opacity: isAnimating ? 1 : 0 }">
@@ -36,6 +36,7 @@
         <img
           :src="`https://deckofcardsapi.com/static/img/${numbers[i]}.png`"
           class="w-full h-full object-cover rounded shadow-md"
+          draggable="false"
         />
       </div>
     </div>

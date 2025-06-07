@@ -7,7 +7,7 @@
     >
       <h1 class="text-lg font-semibold text-textcolor2">{{ card.value }} OF {{ card.suit }}</h1>
       <div class="relative w-58 h-64">
-        <img :src="card.image" class="w-full h-full filter brightness-100" />
+        <img :src="card.image" class="w-full h-full filter brightness-100" draggable="false" />
         <div class="absolute inset-0 bg-gradient-to-r from-1 to-gradient opacity-30"></div>
       </div>
     </div>

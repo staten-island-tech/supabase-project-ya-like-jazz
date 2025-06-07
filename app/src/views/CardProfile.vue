@@ -7,7 +7,7 @@
         :class="{ 'opacity-100': ownedStatus, 'opacity-30': !ownedStatus }"
       >
         <div class="relative">
-          <img :src="cardImage" class="w-full h-full filter brightness-100" />
+          <img :src="cardImage" class="w-full h-full filter brightness-100" draggable="false" />
           <div class="absolute inset-0 bg-gradient-to-r from-1 to-gradient opacity-30"></div>
         </div>
       </div>

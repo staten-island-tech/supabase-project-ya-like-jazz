@@ -13,6 +13,7 @@
       <img
         src="https://deckofcardsapi.com/static/img/back.png"
         class="w-full h-full object-cover rounded-lg"
+        draggable="false"
       />
     </div>
   </div>

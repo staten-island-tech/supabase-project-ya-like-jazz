@@ -44,7 +44,7 @@
           :ref="(el) => cardRefs.set(card.id, el)"
           style="opacity: 0"
         >
-          <img src="https://deckofcardsapi.com/static/img/back.png" />
+          <img src="https://deckofcardsapi.com/static/img/back.png" draggable="false" />
         </div>
 
         <img
@@ -52,6 +52,7 @@
           :key="'placeholder-' + i"
           src="https://deckofcardsapi.com/static/img/back.png"
           class="placeholderCard w-24 h-36 absolute left-1/2 -translate-x-1/2"
+          draggable="false"
           :style="{ bottom: `${i * 6}px`, zIndex: i }"
         />
       </div>

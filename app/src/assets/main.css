@@ -61,3 +61,7 @@
     color-scheme: light !important;
   }
 }
+
+:root, body, html {
+  overflow-x: hidden;
+}

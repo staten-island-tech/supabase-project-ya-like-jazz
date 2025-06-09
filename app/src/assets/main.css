@@ -62,6 +62,8 @@
   }
 }
 
-:root, body, html {
+:root,
+body,
+html {
   overflow-x: hidden;
 }

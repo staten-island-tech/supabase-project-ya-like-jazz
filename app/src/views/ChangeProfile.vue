@@ -25,8 +25,10 @@
     <div class="flex justify-center p-2">
       <img :src="settingsStore.pfp" class="w-80 h-80" draggable="false" />
     </div>
-    <div class="absolute top-[40rem] left-1/2 w-1/2 h-1/2 -translate-x-1/2 z-10"
-      :style="{ opacity: isAnimating ? 1 : 0 }">
+    <div
+      class="absolute top-[40rem] left-1/2 w-1/2 h-1/2 -translate-x-1/2 z-10"
+      :style="{ opacity: isAnimating ? 1 : 0 }"
+    >
       <div
         v-for="(angle, i, number) in angles"
         :key="i"
@@ -53,26 +55,26 @@ const angles = [-60, -55, -50, -45, -40, -35, -30, -25, -20, -15, -10, -5, 0, 5,
 const numbers = [
   'back',
   'back',
-  '2S',
-  '3S',
-  '4S',
-  '5S',
-  '6S',
-  '7S',
-  '8S',
-  '9S',
-  '0S',
-  'JS',
-  'QS',
-  'KS',
-  'AS',
+  '2C',
+  '3C',
+  '4C',
+  '5C',
+  '6C',
+  '7C',
+  '8C',
+  '9C',
+  '0C',
+  'JC',
+  'QC',
+  'KC',
+  'AC',
   'back',
   'back',
 ]
 const cards = ref<HTMLElement[]>([])
 
 const text = ref('')
-let isAnimating = false
+const isAnimating = ref(false)
 
 function isValidUrl(string: string) {
   try {
@@ -84,9 +86,9 @@ function isValidUrl(string: string) {
 }
 
 async function changePfp() {
-  if (isAnimating) return
+  if (isAnimating.value) return
 
-  isAnimating = true
+  isAnimating.value = true
   const inputValue = text.value
   text.value = ''
 
@@ -97,7 +99,7 @@ async function changePfp() {
       'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png'
   } else if (!isValidUrl(inputValue)) {
     alert(`Not a valid link!`)
-    isAnimating = false 
+    isAnimating.value = false
     return
   } else {
     cardFlashAnim()
@@ -106,11 +108,11 @@ async function changePfp() {
   }
 
   await new Promise((resolve) => setTimeout(resolve, 1500))
-  isAnimating = false
+  isAnimating.value = false
 }
 
-function cardFlashAnim(){
-   cards.value.forEach((card, i) => {
+function cardFlashAnim() {
+  cards.value.forEach((card, i) => {
     gsap.set(card, {
       rotation: 0,
       opacity: 0,
@@ -133,8 +135,6 @@ function cardFlashAnim(){
     })
   })
 }
-
 </script>
-
 
 <style lang="scss" scoped></style>

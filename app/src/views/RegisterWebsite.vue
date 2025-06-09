@@ -104,7 +104,7 @@ async function signUpNewUser() {
   }
 
   if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
-    alert('An account with this email already exists. Please check your email to verify it.')
+    alert('An account with this email already exists.')
     return
   }
 

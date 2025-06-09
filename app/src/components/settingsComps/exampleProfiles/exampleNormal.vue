@@ -1,57 +1,28 @@
 <template>
-  <div>
     <div>
-      <h1 class="text-center text-textcolor2">Click on a card for more information</h1>
-    </div>
-    <div>
+<h1> Normal profile </h1>
       <h1 class="text-textcolor2 text-center text-4xl font-bold">Aces</h1>
       <div class="grid grid-cols-4 gap-4">
         <YourInventory v-for="ace in aces" :card="ace" :key="ace.code" :ownedCards="obtained" />
       </div>
     </div>
-
-    <div>
-      <h1 class="text-textcolor2 text-center text-4xl font-bold">Royal Family</h1>
-      <div class="grid grid-cols-3 gap-4">
-        <YourInventory
-          v-for="royalCard in royalCards"
-          :card="royalCard"
-          :key="royalCard.code"
-          :ownedCards="obtained"
-        />
-      </div>
-    </div>
-
-    <div>
-      <h1 class="text-textcolor2 text-center text-4xl font-bold">7-10 Family</h1>
-      <div class="grid grid-cols-4 gap-4">
-        <YourInventory v-for="book in books" :card="book" :key="book.code" :ownedCards="obtained" />
-      </div>
-    </div>
-
-    <div>
-      <h1 class="text-textcolor2 text-center text-4xl font-bold">2-6 Family</h1>
-      <div class="grid grid-cols-4 gap-4">
-        <YourInventory v-for="tray in trays" :card="tray" :key="tray.code" :ownedCards="obtained" />
-      </div>
-    </div>
-  </div>
 </template>
 
 <script setup lang="ts">
 import YourInventory from '@/components/YourInventory.vue'
 import { ref, onMounted } from 'vue'
-import { useDeckStore } from '@/stores/yourDeck'
 import type { CardCollection } from '@/types'
+import { useDeckStore } from '@/stores/yourDeck'
 
 const deckStore = useDeckStore()
-console.log('Deck ID:', deckStore.yourDeckID)
+
 const aces = ref<CardCollection[]>([])
 const royalCards = ref<CardCollection[]>([])
 const books = ref<CardCollection[]>([]) // Update names 7-10
 const trays = ref<CardCollection[]>([]) // 2-6
 const count = ref(0)
-const obtained = ref([]) // This will hold the owned card codes
+const obtained = ref([])
+
 
 async function fetchInventory() {
   try {
@@ -114,14 +85,10 @@ async function beginLoading() {
 }
 
 beginLoading()
-// Player Deck: rrnwp5zoohxo
-// Royal Family Deck: touj381sc2u6
-// Ace Family Deck: n3fxmvtwhj6s
-// 7-10 Family (name needed): mcahu5100ua3
-// 2-6 Family (name needed): gptcy4vs0tut
-// Next: figure out how to change organization for different decks
 
-//picture of supabase tables, code given 10 discarded. finish project !!
+
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+
+</style>

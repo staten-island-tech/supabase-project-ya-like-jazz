@@ -1,11 +1,13 @@
 <template>
   <div class="relative w-screen h-screen overflow-hidden flex items-center justify-center">
     <div
-      v-for="(circle, index) in 8"
+      v-for="(_, index) in 8"
       :key="index"
       class="circle bg-red-500 w-6 h-6 rounded-full absolute"
-      :ref="(el) => (circleEls[index] = el)"
-    />
+      :ref="(el) => setCircleEl(el, index)"
+    ></div>
+
+    <div ref="trailContainer" class="absolute inset-0 pointer-events-none"></div>
   </div>
 </template>
 
@@ -13,7 +15,16 @@
 import { onMounted, ref } from 'vue'
 import { gsap } from 'gsap'
 
-const circleEls = ref<HTMLElement[]>(Array(8).fill(null))
+const circleEls = ref<(HTMLElement | null)[]>([])
+const trailContainer = ref<HTMLElement | null>(null)
+
+function setCircleEl(el: Element | null, index: number) {
+  if (el instanceof HTMLElement) {
+    circleEls.value[index] = el
+  } else {
+    circleEls.value[index] = null
+  }
+}
 
 onMounted(() => {
   const centerX = 0
@@ -32,19 +43,42 @@ onMounted(() => {
     const x = Math.cos(angle) * radius
     const y = Math.sin(angle) * radius
 
-    gsap.set(el, { x: centerX, y: centerY, rotation: 0 })
+    if (el) {
+      gsap.set(el, { x: centerX, y: centerY, rotation: 0 })
 
-    tl.to(
-      el,
-      {
-        x,
-        y,
-        rotation: 360,
-      },
-      0,
-    ) // Done by ChatGPT (I'll modify it as I see fit)
+      tl.to(
+        el,
+        {
+          x,
+          y,
+          rotation: 360,
+          onUpdate: () => {
+            const trail = el.cloneNode(true) as HTMLElement
+            trail.style.position = 'absolute'
+            trail.style.pointerEvents = 'none'
+            trail.style.opacity = '0.6'
+            trail.style.zIndex = '-1'
+            const computed = window.getComputedStyle(el)
+            trail.style.transform = computed.transform
+            trailContainer.value?.appendChild(trail)
+            gsap.to(trail, {
+              opacity: 0,
+              duration: 0.8,
+              onComplete: () => {
+                trail.remove()
+              },
+            })
+          },
+        },
+        0,
+      )
+    }
   })
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.circle {
+  will-change: transform;
+}
+</style>

@@ -238,15 +238,14 @@ async function getSettings(uid: string) {
         pfp: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png',
       },
     ])
-  } else if (settingsStore.pfp === existingSettings[0].pfp){
+  } else if (settingsStore.pfp === existingSettings[0].pfp) {
     settingsStore.pfp = existingSettings[0].pfp
-      settingsStore.bubbles = existingSettings[0].bubbles
-      animationStore.animation = false
-      settingsStore.currentTheme = existingSettings[0].theme
-      verified.value = true
-      return existingSettings[0]
-  }
-  else {
+    settingsStore.bubbles = existingSettings[0].bubbles
+    animationStore.animation = false
+    settingsStore.currentTheme = existingSettings[0].theme
+    verified.value = true
+    return existingSettings[0]
+  } else {
     setTimeout(() => {
       settingsStore.pfp = existingSettings[0].pfp
       settingsStore.bubbles = existingSettings[0].bubbles

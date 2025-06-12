@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div ref="chart" class="w-full h-screen"></div>
+    <div ref="chart" class="w-full h-screen -translate-y-32"></div>
   </div>
 </template>
 

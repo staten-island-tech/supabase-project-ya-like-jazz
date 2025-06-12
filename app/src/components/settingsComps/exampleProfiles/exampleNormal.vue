@@ -1,94 +1,26 @@
 <template>
-    <div>
-<h1> Normal profile </h1>
-      <h1 class="text-textcolor2 text-center text-4xl font-bold">Aces</h1>
-      <div class="grid grid-cols-4 gap-4">
-        <YourInventory v-for="ace in aces" :card="ace" :key="ace.code" :ownedCards="obtained" />
-      </div>
+  <div>
+    <h1>Normal Profile</h1>
+    <h1 class="text-textcolor2 text-center text-4xl font-bold">Aces</h1>
+    <div class="flex justify-center flex-col">
+  <div v-for="ace in aces" :card="ace" :key="ace.code" class="">
+    <h1 class="text-lg font-semibold text-textcolor2">{{ ace.value }} OF {{ ace.suit }}</h1>
+    <div class="relative w-58 h-64 flex items-center justify-center">
+      <img :src="ace.image" class="w-full h-full object-contain filter brightness-100" draggable="false" />
+      <div class="absolute inset-0 bg-gradient-to-r from-1 to-gradient opacity-30"></div>
     </div>
+  </div>
+</div>
+
+  </div>
 </template>
 
 <script setup lang="ts">
 import YourInventory from '@/components/YourInventory.vue'
 import { ref, onMounted } from 'vue'
 import type { CardCollection } from '@/types'
-import { useDeckStore } from '@/stores/yourDeck'
 
-const deckStore = useDeckStore()
-
-const aces = ref<CardCollection[]>([])
-const royalCards = ref<CardCollection[]>([])
-const books = ref<CardCollection[]>([]) // Update names 7-10
-const trays = ref<CardCollection[]>([]) // 2-6
-const count = ref(0)
-const obtained = ref([])
-
-
-async function fetchInventory() {
-  try {
-    const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/${deckStore.yourDeckID}/pile/player/list/`,
-    )
-    if (res.status > 200) {
-      throw new Error('ogirkjtbrfmikoltpe')
-    } else {
-      const data = await res.json()
-      obtained.value = data.piles.player.cards.map((card: { code: string }) => card.code)
-      return { data }
-    }
-  } catch (error) {
-    console.log('player has not obtained any cards yet, normal error')
-  }
-}
-
-onMounted(() => {
-  fetchInventory()
-})
-
-async function displaySets(collectionDeck: string) {
-  try {
-    const res = await fetch(
-      `https://deckofcardsapi.com/api/deck/${collectionDeck}/pile/player/list/`,
-    )
-    if (!res.ok) {
-      const errorText = await res.text()
-      console.log(`${errorText}`)
-    } else {
-      const data = await res.json()
-      console.log(data.piles.player.cards)
-      organizeSet(data.piles.player.cards)
-      return { data }
-    }
-  } catch (error) {
-    alert(error)
-  }
-}
-
-function organizeSet(data: CardCollection[]) {
-  if (count.value === 0) {
-    aces.value = data
-  } else if (count.value === 1) {
-    royalCards.value = data
-  } else if (count.value === 2) {
-    books.value = data
-  } else if (count.value === 3) {
-    trays.value = data
-  }
-}
-
-async function beginLoading() {
-  const collectionDecks = ['n3fxmvtwhj6s', 'touj381sc2u6', 'mcahu5100ua3', 'gptcy4vs0tut']
-  for (const collectionDeck of collectionDecks) {
-    await displaySets(collectionDeck)
-    count.value++
-  }
-}
-
-beginLoading()
-
-
+const aces = ref<CardCollection[]>([{code: 'AS', image: 'https://deckofcardsapi.com/static/img/AS.png', suit: 'SPADES',value: 1 }])
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

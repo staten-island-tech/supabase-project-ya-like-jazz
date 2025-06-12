@@ -106,7 +106,7 @@ function organizeSet(data: CardCollection[]) {
 }
 
 async function beginLoading() {
-  const collectionDecks = ['n3fxmvtwhj6s', 'touj381sc2u6', 'mcahu5100ua3', 'gptcy4vs0tut']
+  const collectionDecks = ['7qfytik5wcvt', 'nf556c74luxt', 'mcahu5100ua3', 'cn2jpjo81ube']
   for (const collectionDeck of collectionDecks) {
     await displaySets(collectionDeck)
     count.value++
@@ -115,10 +115,10 @@ async function beginLoading() {
 
 beginLoading()
 // Player Deck: rrnwp5zoohxo
-// Royal Family Deck: touj381sc2u6
-// Ace Family Deck: n3fxmvtwhj6s
+// Ace Family Deck: 7qfytik5wcvt
+// Royal Family Deck: nf556c74luxt
 // 7-10 Family (name needed): mcahu5100ua3
-// 2-6 Family (name needed): gptcy4vs0tut
+// 2-6 Family (name needed): cn2jpjo81ube
 // Next: figure out how to change organization for different decks
 
 //picture of supabase tables, code given 10 discarded. finish project !!

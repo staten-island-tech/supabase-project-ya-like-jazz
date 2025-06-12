@@ -15,8 +15,13 @@
       <h1 class="text-textcolor2 text-center">{{ ownedAmount }}</h1>
     </div>
     <div class="flex justify-center p-8">
-    <RouterLink to="/profile" class="text-textcolor2 p-18 text-6xl p-2 rounded-lg border-2 w-fit transition-all duration-200 hover:text-8xl hover:italic"> Return </RouterLink>
-  </div>
+      <RouterLink
+        to="/profile"
+        class="text-textcolor2 p-18 text-6xl p-2 rounded-lg border-2 w-fit transition-all duration-200 hover:text-8xl hover:italic"
+      >
+        Return
+      </RouterLink>
+    </div>
   </div>
 </template>
 
@@ -43,7 +48,7 @@ async function fetchCardFromSupabase() {
   } else if (data.length === 0) {
     ownedAmount.value = 'You do not own this card yet...'
     ownedStatus.value = false
-  } else if(data[0].quantity === 1) {
+  } else if (data[0].quantity === 1) {
     ownedAmount.value = `You own ${data[0].quantity} copy of this card!`
     ownedStatus.value = true
   } else {

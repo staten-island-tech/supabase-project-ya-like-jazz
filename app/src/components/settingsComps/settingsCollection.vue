@@ -26,11 +26,17 @@
         Normal Profile
       </li>
     </ul>
-    <div class="relative flex items-center justify-center w-full h-full"> 
-      <div class="w-96 h-96 flex justify-center text-center  border-2 rounded-lg" v-if="settingsStore.bubbles"> 
-        <exampleBubbly /> 
+    <div class="relative flex items-center justify-center w-full h-full">
+      <div
+        class="w-96 h-96 flex justify-center text-center border-2 rounded-lg"
+        v-if="settingsStore.bubbles"
+      >
+        <exampleBubbly />
       </div>
-      <div class="w-96 h-96 flex justify-center text-center  border-2 rounded-lg" v-if="!settingsStore.bubbles"> 
+      <div
+        class="w-96 h-96 flex justify-center text-center border-2 rounded-lg"
+        v-if="!settingsStore.bubbles"
+      >
         <exampleNormal />
       </div>
     </div>

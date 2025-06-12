@@ -7,6 +7,11 @@
       <img :src="imageURL" v-if="number && suit" />
       <img :src="defaultImage" v-if="!number && !suit" class="mt-4" />
     </div>
+
+    <div>
+      <LowTierCardAnimation ref="ringRef" />
+      <!--formatting issue, need to fix-->
+    </div>
   </div>
 </template>
 
@@ -17,6 +22,7 @@ import { useDeckStore } from '@/stores/yourDeck'
 import { supabase } from '@/lib/supabaseClient'
 import type { Suits, Numbers } from '@/types'
 import { error } from 'console'
+import LowTierCardAnimation from '@/components/LowTierCardAnimation.vue'
 
 const deckStore = useDeckStore()
 const number = ref<Numbers>()
@@ -25,12 +31,18 @@ const code = computed(() => getCardCode(number.value!, suit.value!))
 const imageURL = computed(() => `https://deckofcardsapi.com/static/img/${code.value}.png`)
 const defaultImage = 'https://deckofcardsapi.com/static/img/back.png'
 const quantity = ref(1)
+const ringRef = ref()
+
+function ringAnimation() {
+  ringRef.value?.animateRings()
+}
 
 function spinForSet() {
   spinForSuit()
   const randomNumber = Math.floor(Math.random() * 100 + 1)
   if (randomNumber <= 60) {
     number.value = getRandomFromArray([2, 3, 4, 5, 6] as Numbers[])
+    ringAnimation()
     /*     gsap.to('box') */
   } else if (randomNumber <= 80) {
     number.value = getRandomFromArray([7, 8, 9, 10] as Numbers[])

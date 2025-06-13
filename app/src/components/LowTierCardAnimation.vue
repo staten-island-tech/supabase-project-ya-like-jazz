@@ -1,27 +1,28 @@
 <template>
-  <div class="relative w-screen h-screen flex items-center justify-center">
-    <div ref="outerRing" class="absolute w-72 h-72 rounded-full" style="position: relative">
+  <div class="relative h-screen flex justify-center items-center">
+    <!--ChatGPT was used to create animations. To say the least, it was like herding cats-->
+    <div ref="outerRing" class="absolute w-96 h-96 rounded-full">
       <div
         v-for="(suit, i) in suitSvgs"
         :key="'outer-' + suit.name + '-' + i"
-        class="w-8 h-8 absolute select-none"
+        class="w-12 h-12 absolute select-none"
+        :style="getPositionStyle(i, 160, suitSvgs.length)"
+        v-html="suit.svg"
+      ></div>
+    </div>
+
+    <div
+      ref="innerRing"
+      class="absolute w-72 h-72 rounded-full"
+      style="top: 50%; left: 50%; transform: translate(-50%, -50%)"
+    >
+      <div
+        v-for="(suit, i) in suitSvgs"
+        :key="'inner-' + suit.name + '-' + i"
+        class="w-12 h-12 absolute select-none"
         :style="getPositionStyle(i, 120, suitSvgs.length)"
         v-html="suit.svg"
       ></div>
-
-      <div
-        ref="innerRing"
-        class="absolute w-48 h-48 rounded-full"
-        style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%)"
-      >
-        <div
-          v-for="(suit, i) in suitSvgs"
-          :key="'inner-' + suit.name + '-' + i"
-          class="w-8 h-8 absolute select-none"
-          :style="getPositionStyle(i, 80, suitSvgs.length)"
-          v-html="suit.svg"
-        ></div>
-      </div>
     </div>
   </div>
 </template>
@@ -71,31 +72,58 @@ function getPositionStyle(index: number, radius: number, total: number) {
   const x = radius * Math.cos(angle)
   const y = radius * Math.sin(angle)
   return {
-    left: `calc(50% + ${x}px - 1rem)`,
-    top: `calc(50% + ${y}px - 1rem)`,
+    left: `calc(50% + ${x}px - 1.5rem)`,
+    top: `calc(50% + ${y}px - 1.5rem)`,
   }
 }
 
-function animateRings() {
+const isAnimating = ref(false)
+
+function animateSine() {
+  if (isAnimating.value) return
   if (!outerRing.value || !innerRing.value) return
+
+  isAnimating.value = true
+
   gsap.killTweensOf([outerRing.value, innerRing.value])
+
   gsap.to(outerRing.value, {
     rotation: 360,
-    duration: 2,
-    ease: 'linear',
+    duration: 4,
     repeat: -1,
+    yoyo: true,
+    ease: 'power2.inOut',
+    modifiers: {
+      x: (x: string) => `${parseFloat(x) + Math.sin(Date.now() / 800) * 60}px`,
+      y: (y: string) => `${parseFloat(y) + Math.cos(Date.now() / 800) * 60}px`,
+    },
   })
+
   gsap.to(innerRing.value, {
     rotation: -360,
-    duration: 1,
-    ease: 'linear',
+    duration: 3,
     repeat: -1,
+    yoyo: true,
+    ease: 'power2.inOut',
+    modifiers: {
+      x: (x: string) => `${parseFloat(x) + Math.sin(Date.now() / 600) * 45}px`,
+      y: (y: string) => `${parseFloat(y) + Math.cos(Date.now() / 600) * 45}px`,
+    },
   })
 }
 
 onMounted(() => {
-  animateRings()
+  animateSine()
 })
 
-defineExpose({ animateRings })
+defineExpose({ animateSine })
 </script>
+
+<style scoped>
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+</style>

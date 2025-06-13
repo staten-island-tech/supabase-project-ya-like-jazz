@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Normal Profile</h1>
+    <h1 class="text-textcolor2">Normal Profile</h1>
     <h1 class="text-textcolor2 text-center text-4xl font-bold">Aces</h1>
     <div class="flex justify-center flex-col">
       <div v-for="ace in aces" :card="ace" :key="ace.code" class="">

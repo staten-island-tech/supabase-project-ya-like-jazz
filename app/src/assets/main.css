@@ -8,13 +8,10 @@
   --color-2-hover: #161a33;
   --color-3: #7e45f1;
   --color-3-hover: #6236ba;
-  --color-3-dark: #290f5d;
   --color-4: #ffbf40;
   --color-4-hover: #feb420;
   --text-color: #ffffff;
   --text-color2: #000000;
-  --color-gsap1: #ff00ff;
-  --color-gsap2: #00ffff;
 }
 
 [data-theme='pink'] {
@@ -52,6 +49,44 @@
   --text-color: #000000;
   --text-color2: #ffffff;
 }
+
+[data-theme='modern'] {
+  --color-1: #e2e2e5;
+  --color-2: #6d898e;
+  --color-2-hover: #25383c;
+  --color-3: #4b6173;
+  --color-3-hover: #213240;
+  --color-4: #060606;
+  --color-4-hover: #000000;
+  --text-color: #fefbfd;
+  --text-color2: #000000;
+}
+
+[data-theme='waves'] {
+  --color-1: #0a0b10;
+  --color-2: #07eed5;
+  --color-2-hover: #00a392;
+  --color-3: #2ea3fa;
+  --color-3-hover: #0091ff;
+  --color-4: #1261e6;
+  --color-4-hover: #003da5;
+  --text-color2: #fefbfd;
+  --text-color: #000000;
+}
+
+
+[data-theme='earth'] {
+  --color-1: #fefeff;
+  --color-2: #0e3c4f;
+  --color-2-hover: #0e3c4f;
+  --color-3: #157b5b;
+  --color-3-hover: #157b5b;
+  --color-4: #60cc50;
+  --color-4-hover: #60cc50;
+  --text-color: #fefeff;
+  --text-color2: #000000;
+}
+
 
 .p-button.color-3 {
   background-color: #7e45f1;

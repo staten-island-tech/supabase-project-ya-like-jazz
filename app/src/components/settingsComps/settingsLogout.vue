@@ -17,6 +17,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'vue-router'
 import { useSettingsStore } from '@/stores/settings'
 import { useUserStore } from '@/stores/loggedin'
+import { resetAllStores } from '@/stores/resetAllStores'
 
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
@@ -27,11 +28,15 @@ async function signOut() {
   if (error) {
     console.error(error.message)
   } else {
-    userStore.logout()
-    localStorage.clear()
-    sessionStorage.clear()
     router.push('/')
-    settingsStore.currentTheme = 'default'
+  settingsStore.pfp = ""
+  settingsStore.currentTheme = 'default'
+  userStore.loggedIn = false
+  userStore.notLogged = true
+  resetAllStores()
+  localStorage.clear()
+  sessionStorage.clear()
+  userStore.logout()
   }
 }
 </script>

@@ -1,7 +1,18 @@
 <template>
   <div>
     <div>
-      <h1 class="text-textcolor2 text-center text-8xl">{{ cardName }}</h1>
+        <h1 v-if="route.params.code.slice(1,2) === 'H' || route.params.code.slice(1,2) === 'D'"
+    class="title text-textcolor2 text-center text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-red-950 to-red-500"
+    style="background-size: 300% 100%;"
+  >
+    {{ cardName }}
+  </h1>
+   <h1 v-if="route.params.code.slice(1,2) === 'C' || route.params.code.slice(1,2) === 'S'"
+    class="title text-textcolor2 text-center text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-500 via-slate-950 to-slate-500"
+    style="background-size: 300% 100%;"
+  >
+    {{ cardName }}
+  </h1>
       <div
         class="flex justify-center p-2"
         :class="{ 'opacity-100': ownedStatus, 'opacity-30': !ownedStatus }"
@@ -29,6 +40,7 @@
 import { supabase } from '@/lib/supabaseClient'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import { gsap } from 'gsap'
 import cardDescriptions from '@/lib/cardDescriptions.json'
 
 const route = useRoute()
@@ -93,6 +105,12 @@ function getCardName(code) {
 
 onMounted(() => {
   fetchCardFromSupabase()
+    gsap.to('h1', {
+    backgroundPosition: '200% 0%',
+    duration: 4,
+    ease: 'linear',
+    repeat: -1,
+  })
 })
 </script>
 

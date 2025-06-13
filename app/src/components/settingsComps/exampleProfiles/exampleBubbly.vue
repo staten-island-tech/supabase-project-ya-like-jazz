@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Bubbly Profile</h1>
+    <h1 class="text-textcolor2">Bubbly Profile</h1>
     <h1 class="text-textcolor2 text-center text-4xl font-bold">Your Cards</h1>
     <div ref="chart" class="w-full h-full -translate-y-12"></div>
   </div>

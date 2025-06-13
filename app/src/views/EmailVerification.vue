@@ -75,7 +75,7 @@ onMounted(() => {
   ]
 
   squareElements.forEach((el, i) => {
-    const tl = gsap.timeline({  delay: 3  }) 
+    const tl = gsap.timeline({  delay: 2.5  }) 
     tl.to(el, {
       duration: 1,
       scale: 1,

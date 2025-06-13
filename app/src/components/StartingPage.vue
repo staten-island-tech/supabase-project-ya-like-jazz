@@ -1,6 +1,6 @@
 <template>
   <div class="h-[110vh]">
-<h1 class="title text-8xl font-extrabold text-center p-6 bg-gradient-to-r from-3 to-dark3 bg-clip-text text-transparent">
+<h1 class="title text-8xl font-extrabold text-center p-6 bg-gradient-to-r from-3 to-[#290f5d] bg-clip-text text-transparent">
   Card Game
 </h1>
 

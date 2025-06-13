@@ -156,7 +156,7 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     tableCheckpoint(session!.user.id)
     getSettings(session!.user.id)
   } else if (event === 'SIGNED_OUT') {
-
+    verified.value = false
   } else if (event === 'PASSWORD_RECOVERY') {
     // handle password recovery event
   } else if (event === 'TOKEN_REFRESHED') {
@@ -196,7 +196,7 @@ async function addToApiTable(uid: string, APIDeckID: string) {
     console.error('Error inserting into profiles:', profileError)
     return
   }
-  /*   console.log('Upserted profile:', profileData) */
+  deckStore.yourDeckID = APIDeckID
 }
 
 async function generateDeckID() {
@@ -239,7 +239,7 @@ async function getSettings(uid: string) {
       {
         uid: uid,
         theme: 'default',
-        bubbles: true,
+        bubbles: false,
         pfp: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1024px-Default_pfp.svg.png',
       },
     ])
@@ -267,7 +267,7 @@ async function necessaryAPICalls(link: string) {
     const res = await fetch(link)
     if (!res.ok) {
       const errorText = await res.text()
-      throw new Error(`API error: ${res.status} - ${errorText}`)
+      throw new Error(`APIfrgegrthtyh error: ${res.status} - ${errorText}`)
     } else {
       const data = await res.json()
       return data

@@ -14,6 +14,7 @@
             class="border-solid border-4"
             placeholder="Password"
             v-model="password"
+
           />
         </div>
         <div>
@@ -90,9 +91,12 @@ const eventFinished = ref(false)
 const placeholderAnims: gsap.core.Tween[] = []
 const cards = reactive<{ id: number }[]>([])
 let nextId = 0
+let finishedCards = 0
 const cardRefs = new Map<number, HTMLElement>()
 
 async function signInWithEmail() {
+  animationStore.animation = false
+
   const { data, error } = await supabase.auth.signInWithPassword({
     email: username.value,
     password: password.value,
@@ -101,11 +105,15 @@ async function signInWithEmail() {
   if (!error && data.user && data.session) {
     userStore.login({ uid: data.user.id, email: data.user.email! }, data.session.access_token)
     onLaunchClick()
-    animationStore.animation = true
+    setTimeout(() => {
+  animationStore.animation = true
+}, 2000)
   } else {
     alert('Login failed!')
   }
 }
+
+
 
 onMounted(() => {
   const placeholders = document.querySelectorAll('.placeholderCard')
@@ -136,7 +144,7 @@ onMounted(() => {
   ease: "none",
   delay: 0.5,
 });
-
+  
 })
 
 function pausePlaceholderAnimations() {
@@ -226,7 +234,10 @@ function launchCard() {
         ease: 'power4.out',
       })
 
-      eventFinished.value = true
+      finishedCards++
+  if (finishedCards === 100) {
+    eventFinished.value = true
+  }
     }, 0)
   })
 }

@@ -23,7 +23,7 @@
       </button>
     </div>
     <div class="flex justify-center p-2">
-      <img :src="settingsStore.pfp" class="w-80 h-80" draggable="false" />
+      <img :src="settingsStore.pfp" class="w-80 h-80 border-2 p-2" draggable="false" />
     </div>
     <div
       class="absolute top-[40rem] left-1/2 w-1/2 h-1/2 -translate-x-1/2 z-10"

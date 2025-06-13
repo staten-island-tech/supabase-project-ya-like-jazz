@@ -43,17 +43,47 @@
       >
         Ember Desert
       </li>
+      <li
+        class="cursor-pointer text-xl w-40 p-2 transition-all duration-200 hover:text-2xl hover:italic z-20"
+        :class="{
+          'bg-2 text-textcolor rounded-lg': settingsStore.currentTheme === 'modern',
+          'text-textcolor2': settingsStore.currentTheme !== 'modern',
+        }"
+        @click="themeModern()"
+      >
+        Modernity
+      </li>
+      <li
+        class="cursor-pointer text-xl w-40 p-2 transition-all duration-200 hover:text-2xl hover:italic z-20"
+        :class="{
+          'bg-2 text-textcolor rounded-lg': settingsStore.currentTheme === 'waves',
+          'text-textcolor2': settingsStore.currentTheme !== 'waves',
+        }"
+        @click="themeWaves()"
+      >
+        Farlands
+      </li>
+      <li
+        class="cursor-pointer text-xl w-40 p-2 transition-all duration-200 hover:text-2xl hover:italic z-20"
+        :class="{
+          'bg-2 text-textcolor rounded-lg': settingsStore.currentTheme === 'earth',
+          'text-textcolor2': settingsStore.currentTheme !== 'earth',
+        }"
+        @click="themeEarth()"
+      >
+        Earth Day
+      </li>
     </ul>
       <div class="relative w-full h-96">
 
 <div
-    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-72 w-96 h-96 flex justify-center items-center border-2 rounded-lg z-10 flex-col"
+    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[420px] w-96 h-96 flex justify-center items-center border-2 rounded-lg z-10 flex-col"
   >
     <div class="w-full h-32 bg-2 hover:bg-hover2"> </div>
     <div class="w-full h-32 bg-3 hover:bg-hover3"> </div>
     <div class="w-full h-32 bg-4 hover:bg-hover4"> </div>
   </div>
-  <div class="absolute left-1/2 -translate-x-1/2 translate-y-72 flex justify-center">
+  <div class="absolute left-1/2 -translate-x-1/2 translate-y-40 flex justify-center">
   <h1 class="text-textcolor2 hover:text-textcolor cursor-default"> Hover on a color to see its color when hovered </h1>
   </div>
 </div>
@@ -77,6 +107,15 @@ function themeBlue() {
 }
 function themeDesert() {
   settingsStore.currentTheme = 'desert'
+}
+function themeModern() {
+  settingsStore.currentTheme = 'modern'
+}
+function themeWaves() {
+  settingsStore.currentTheme = 'waves'
+}
+function themeEarth() {
+  settingsStore.currentTheme = 'earth'
 }
 </script>
 

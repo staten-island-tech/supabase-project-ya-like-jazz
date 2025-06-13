@@ -1,7 +1,11 @@
 <template>
   <div class="h-[110vh]">
-    <h1 class="hello">Hello</h1>
-    <div class="absolute top-1/2 left-1/2 w-1/2 h-1/2 -translate-x-1/2 translate-y-24">
+<h1 class="title text-8xl font-extrabold text-center p-6 bg-gradient-to-r from-3 to-dark3 bg-clip-text text-transparent">
+  Card Game
+</h1>
+
+    <div class="absolute left-1/2 -translate-x-1/2 translate-y-[21.5rem] w-1/2 h-1/2"
+>
       <div
         v-for="(position, i) in positions"
         :key="i"
@@ -27,6 +31,16 @@
         />
       </div>
     </div>
+<div class="absolute w-screen top-[860px] flex flex-col items-center space-y-4">
+  <div class="flex justify-center space-x-6">
+    <h1 class="text-8xl font-bold">Spin for a Card, win</h1>
+    <h1 class="flash text-8xl font-bold">REAL</h1>
+    <h1 class="text-8xl font-bold">Cards* </h1>
+  </div>
+
+  <h1 class="text-xs"> **Cards will be delivered in 10 years</h1>
+</div>
+
   </div>
 </template>
 
@@ -35,8 +49,8 @@ import { gsap } from 'gsap'
 import { onMounted, ref, nextTick } from 'vue'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { TextPlugin } from 'gsap/TextPlugin'
-
-gsap.registerPlugin(ScrollTrigger, TextPlugin)
+import { SplitText } from 'gsap/SplitText'
+gsap.registerPlugin(ScrollTrigger, TextPlugin, SplitText)
 
 const codes = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'J', 'Q', 'K']
 const suits = ['D', 'C', 'H', 'S']
@@ -44,17 +58,13 @@ const suitValue = ref('H')
 const positions = [
   { x: '0rem', y: '-7.5rem', rotation: 0 },
   { x: '-15rem', y: '-15rem', rotation: 0 },
-
   { x: '-10.5rem', y: '-12rem', rotation: -90 },
   { x: '-15rem', y: 0, rotation: 0 },
   { x: '-3rem', y: '2rem', rotation: -90 },
   { x: 0, y: '6rem', rotation: 0 },
   { x: '3rem', y: '2rem', rotation: 90 },
-
   { x: '15rem', y: 0, rotation: 0 },
-
   { x: '10.5rem', y: '-12rem', rotation: 90 },
-
   { x: '15rem', y: '-15rem', rotation: 0 },
   { x: 0, y: '-22.5rem', rotation: 0 },
   { x: '-3rem', y: '-27rem', rotation: -90 },
@@ -71,12 +81,6 @@ function changeSuit() {
 onMounted(async () => {
   await nextTick()
 
-  gsap.to('.hello', {
-    duration: 2,
-    text: 'This is the new text',
-    ease: 'none',
-  })
-
   cardRefs.value.forEach((cardBack) => {
     if (!cardBack) return
     gsap.set(cardBack, {
@@ -91,7 +95,6 @@ onMounted(async () => {
     if (!card) return
     gsap.set(card, {
       opacity: 0,
-      y: -1000,
       scale: 0.5,
       transformOrigin: 'bottom center',
     })
@@ -175,6 +178,26 @@ onMounted(async () => {
       },
     })
   })
+})
+
+onMounted(() => {
+  gsap.to(".title", {
+    "--tw-gradient-from": "#ff00ff",
+    "--tw-gradient-to": "#00ffff",
+    duration: 2,
+    repeat: -1,
+    yoyo: true,
+    ease: "power1.inOut"
+  })
+  
+  const flashTimeline = gsap.timeline({ repeat: -1, yoyo: true })
+
+flashTimeline
+  .to('.flash', { color: '#f87171', duration: 0.1 }) // red
+  .to('.flash', { color: '#60a5fa', duration: 0.1 }) // blue
+  .to('.flash', { color: '#34d399', duration: 0.1 }) // green
+  .to('.flash', { color: '#facc15', duration: 0.1 }) // yellow
+
 })
 </script>
 

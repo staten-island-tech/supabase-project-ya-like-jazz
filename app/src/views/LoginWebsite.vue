@@ -1,10 +1,10 @@
 <template>
-  <div class="overflow-x-hidden">
+  <div class="overflow-hidden">
     <div
       class="flex container justify-center items-center justify-self-center border-solid border-2 border-black rounded-lg object-cover w-[25%] h-full mt-6 mb-24"
     >
       <div class="object-contain p-2 m-2 justify-items-center">
-        <h1 class="text-color-3 font-bold text-[40px]">Welcome!</h1>
+        <h1 class="title text-color-3 font-bold text-[40px]">Welcome!</h1>
         <div class="flex justify-end p-2">
           <input type="text" class="border-solid border-4" placeholder="Email" v-model="username" />
         </div>
@@ -76,12 +76,13 @@ import Button from 'primevue/button'
 import { gsap } from 'gsap'
 import { Physics2DPlugin } from 'gsap/Physics2DPlugin'
 import { CustomEase } from 'gsap/CustomEase'
+import { TextPlugin } from 'gsap/TextPlugin'
 import { useUserStore } from '@/stores/loggedin'
 import { useAnimationStore } from '@/stores/animation'
 import { useSettingsStore } from '@/stores/settings'
 const animationStore = useAnimationStore()
 const userStore = useUserStore()
-gsap.registerPlugin(Physics2DPlugin, CustomEase)
+gsap.registerPlugin(Physics2DPlugin, CustomEase, TextPlugin)
 
 const username = ref('')
 const password = ref('')
@@ -129,6 +130,13 @@ onMounted(() => {
 
     placeholderAnims.push(anim)
   })
+  gsap.to(".title", {
+  text: "Welcome Back!",
+  duration: 1,
+  ease: "none",
+  delay: 0.5,
+});
+
 })
 
 function pausePlaceholderAnimations() {

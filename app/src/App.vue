@@ -75,6 +75,7 @@ import { computed, ref, type Ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import type { Credentials } from '@/types'
 import { list } from 'postcss'
+import { resetAllStores } from './stores/resetAllStores'
 import { useSettingsStore } from '@/stores/settings'
 import { useUserStore } from '@/stores/loggedin'
 import { useDeckStore } from '@/stores/yourDeck'
@@ -117,6 +118,14 @@ async function signOut() {
   const { error } = await supabase.auth.signOut()
   /*   console.log(error, verified.value) */
   router.push('/')
+  settingsStore.pfp = ""
+  settingsStore.currentTheme = 'default'
+  verified.value = false
+  userStore.loggedIn = false
+  userStore.notLogged = true
+  resetAllStores()
+  localStorage.clear()
+  sessionStorage.clear()
   userStore.logout()
 }
 
@@ -147,11 +156,7 @@ const { data } = supabase.auth.onAuthStateChange((event, session) => {
     tableCheckpoint(session!.user.id)
     getSettings(session!.user.id)
   } else if (event === 'SIGNED_OUT') {
-    localStorage.clear()
-    sessionStorage.clear()
-    router.push('/')
-    settingsStore.currentTheme = 'default'
-    verified.value = false
+
   } else if (event === 'PASSWORD_RECOVERY') {
     // handle password recovery event
   } else if (event === 'TOKEN_REFRESHED') {

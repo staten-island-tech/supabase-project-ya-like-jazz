@@ -10,9 +10,9 @@ import type { Credentials } from '../types.ts'
 
 interface UserState {
   loggedIn: boolean
+  notLogged: boolean
   userInfo?: Credentials
-  accessToken?: string // would we need this???
-  // i honestly don't understand pinia too much but if it never changes i dont see a need for it
+  accessToken?: string
   isLoading: boolean
   error?: string
 }
@@ -21,6 +21,7 @@ export const useUserStore = defineStore('user', {
   state: () =>
     ({
       loggedIn: false,
+      notLogged: true,
       userInfo: undefined,
       user: null as Credentials | null,
       accessToken: undefined,
@@ -31,11 +32,13 @@ export const useUserStore = defineStore('user', {
   actions: {
     login(userInfo: Credentials, token: string) {
       this.loggedIn = true
+      this.notLogged = false
       this.userInfo = userInfo
       this.accessToken = token
     },
     logout() {
       this.loggedIn = false
+      this.notLogged = true
       this.userInfo = undefined
       this.accessToken = undefined
     },
@@ -52,7 +55,7 @@ export const useUserStore = defineStore('user', {
   },
   persist: {
     storage: sessionStorage,
-    pick: ['loggedIn'],
+    pick: ['loggedIn', 'notLogged'],
   },
   // I added this along with meta in the router because of false flags
 })

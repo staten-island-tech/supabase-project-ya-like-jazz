@@ -17,7 +17,7 @@
       />
       <button
         @click="changePfp()"
-        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        class="bg-3 hover:bg-hover3 text-white px-4 py-2 rounded"
       >
         Enter
       </button>

@@ -5,17 +5,22 @@
 [data-theme='default'] {
   --color-1: #ffffff;
   --color-2: #222a4c;
+  --color-2-hover: #161a33;
   --color-3: #7e45f1;
   --color-3-hover: #6236ba;
+  --color-3-dark: #290f5d;
   --color-4: #ffbf40;
   --color-4-hover: #feb420;
   --text-color: #ffffff;
   --text-color2: #000000;
+  --color-gsap1: #ff00ff;
+  --color-gsap2: #00ffff;
 }
 
 [data-theme='pink'] {
   --color-1: #fcfffd;
   --color-2: #242e62;
+  --color-2-hover: #141a37;
   --color-3: #e92c84;
   --color-3-hover: #cc2e78;
   --color-4: #f590cb;
@@ -27,6 +32,7 @@
 [data-theme='blue'] {
   --color-1: #fdfafc;
   --color-2: #22283c;
+  --color-2-hover: #161a33;
   --color-3: #1b5af8;
   --color-3-hover: #183889;
   --color-4: #8bcdff;
@@ -38,6 +44,7 @@
 [data-theme='desert'] {
   --color-1: #30260c;
   --color-2: #f0c51a;
+  --color-2-hover: #846a00;
   --color-3: #f36823;
   --color-3-hover: #c34507;
   --color-4: #9c2f45;

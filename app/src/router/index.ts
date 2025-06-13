@@ -13,16 +13,19 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('../views/LoginWebsite.vue'),
+      meta: { requiresGuest: true },
     },
     {
       path: '/register',
       name: 'register',
       component: () => import('../views/RegisterWebsite.vue'),
+      meta: { requiresGuest: true },
     },
     {
       path: '/emailverification',
       name: 'emailverification',
       component: () => import('../views/EmailVerification.vue'),
+      meta: { requiresGuest: true },
     },
     /*     {
       path: '/testpage',
@@ -66,9 +69,16 @@ router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
 
   if (to.meta.requiresAuth && !userStore.loggedIn) {
-    next('/login')
-  } else {
-    next()
+    // If this route requires auth but user is not logged in, redirect to Login
+    return next('/login')
   }
+
+  if (to.meta.requiresGuest && !userStore.notLogged) {
+    // If this route requires guest but user is logged in, redirect to Dashboard
+    return next('/')
+  }
+
+  next() // else, just continue navigation
 })
+
 export default router

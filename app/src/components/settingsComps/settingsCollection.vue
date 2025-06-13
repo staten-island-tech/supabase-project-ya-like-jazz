@@ -28,13 +28,13 @@
     </ul>
     <div class="relative flex items-center justify-center w-full h-full">
       <div
-        class="w-96 h-96 flex justify-center text-center border-2 rounded-lg"
+        class="w-96 h-96 flex justify-center text-center border-2 rounded-lg -translate-y-2"
         v-if="settingsStore.bubbles"
       >
         <exampleBubbly />
       </div>
       <div
-        class="w-96 h-96 flex justify-center text-center border-2 rounded-lg"
+        class="w-96 h-96 flex justify-center text-center border-2 rounded-lg -translate-y-2"
         v-if="!settingsStore.bubbles"
       >
         <exampleNormal />

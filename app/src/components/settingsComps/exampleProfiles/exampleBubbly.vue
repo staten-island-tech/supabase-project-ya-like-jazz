@@ -16,15 +16,14 @@ const chart = ref(null)
 const router = useRouter()
 
 async function exampleCard() {
-  const data = [{ code: 'AS', quantity: 1 }];
+  const data = [{ code: 'AS', quantity: 1 }]
 
   return data.map((item) => ({
     code: item.code,
     name: getCardName(item.code),
     value: item.quantity,
-  }));
+  }))
 }
-
 
 onMounted(async () => {
   const width = 1000
@@ -95,29 +94,29 @@ onMounted(async () => {
     .on('tick', () => {
       nodes.attr('cx', (d) => d.x).attr('cy', (d) => d.y)
       labelGroups.attr('transform', (d) => `translate(${d.x}, ${d.y})`)
-      
-  const drag = d3
-    .drag()
-    .on('start', (event, d) => {
-      if (!event.active) simulation.alphaTarget(0.3).restart()
-      d.fx = d.x
-      d.fy = d.y
-    })
-    .on('drag', (event, d) => {
-      d.fx = event.x
-      d.fy = event.y
-    })
-    .on('end', (event, d) => {
-      if (!event.active) simulation.alphaTarget(0)
-      d.fx = null
-      d.fy = null
-    })
 
-  nodes.call(drag)
-  labelGroups.call(drag)
+      const drag = d3
+        .drag()
+        .on('start', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0.3).restart()
+          d.fx = d.x
+          d.fy = d.y
+        })
+        .on('drag', (event, d) => {
+          d.fx = event.x
+          d.fy = event.y
+        })
+        .on('end', (event, d) => {
+          if (!event.active) simulation.alphaTarget(0)
+          d.fx = null
+          d.fy = null
+        })
 
-  simulation.alpha(1).restart()
-})
+      nodes.call(drag)
+      labelGroups.call(drag)
+
+      simulation.alpha(1).restart()
+    })
 })
 
 function getCardName(code) {

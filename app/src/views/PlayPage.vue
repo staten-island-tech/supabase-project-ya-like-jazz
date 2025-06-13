@@ -1,22 +1,48 @@
 <template>
   <div>
-    <h1>Hello</h1>
-    <div>
-      <button @click="spinForSet()">Spin</button>
-      <h1 v-if="number && suit">{{ number }} of {{ suit }}</h1>
-      <img :src="imageURL" v-if="number && suit" draggable="false" />
-      <img :src="defaultImage" v-if="!number && !suit" class="mt-4" draggable="false" />
+    <h1 class="text-[32px] font-bold text-center">Play!</h1>
+    <div class="containers flex flex-wrap justify-start mr-4 rounded-xl">
+      <div class="border-2 border-black rounded-xl ml-4 p-2 justify-center">
+        <Button
+          class="m-2 bg-black"
+          @click="(resetAnimations(), spinForSet())"
+          raised
+          severity="contrast"
+          >Spin</Button
+        >
+        <h1 v-if="number && suit">{{ number }} of {{ suit }}</h1>
+        <img :src="imageURL" v-if="number && suit" />
+        <img :src="defaultImage" v-if="!number && !suit" class="mt-4" />
+      </div>
+
+      <div class="border-2 border-black ml-4 rounded-xl w-[70%] object-contain">
+        <div v-if="showRings">
+          <HighTierCardAnimation ref="ringRef" />
+        </div>
+
+        <div v-if="showSines">
+          <LowTierCardAnimation ref="sineRef" />
+        </div>
+
+        <div v-if="showSuits">
+          <RoyalCardAnimation ref="suitsRef" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import Button from 'primevue/button'
+import { ref, computed, onMounted } from 'vue'
 import { useDeckStore } from '@/stores/yourDeck'
 /* import { gsap } from 'gsap'  */
 import { supabase } from '@/lib/supabaseClient'
 import type { Suits, Numbers } from '@/types'
 import { error } from 'console'
+import LowTierCardAnimation from '@/components/LowTierCardAnimation.vue'
+import HighTierCardAnimation from '@/components/HighTierCardAnimation.vue'
+import RoyalCardAnimation from '@/components/RoyalCardAnimation.vue'
 
 const deckStore = useDeckStore()
 const number = ref<Numbers>()
@@ -26,14 +52,73 @@ const imageURL = computed(() => `https://deckofcardsapi.com/static/img/${code.va
 const defaultImage = 'https://deckofcardsapi.com/static/img/back.png'
 const quantity = ref(1)
 
+const ringRef = ref<InstanceType<typeof HighTierCardAnimation> | null>(null)
+const sineRef = ref<InstanceType<typeof LowTierCardAnimation> | null>(null)
+const suitRef = ref<InstanceType<typeof RoyalCardAnimation> | null>(null)
+
+const showRings = ref(false)
+const showSines = ref(false)
+const showSuits = ref(false)
+
+onMounted(() => {
+  if (ringRef.value) {
+    ringRef.value.animateRings()
+  }
+})
+
+function ringAnimation() {
+  if (ringRef.value) {
+    ringRef.value.animateRings()
+  }
+}
+
+onMounted(() => {
+  if (sineRef.value) {
+    sineRef.value.animateSine()
+  }
+})
+
+function sineAnimation() {
+  if (sineRef.value) {
+    sineRef.value.animateSine()
+  }
+}
+
+onMounted(() => {
+  if (suitRef.value) {
+    suitRef.value.animateSuits()
+  }
+})
+
+function suitAnimation() {
+  if (suitRef.value) {
+    suitRef.value.animateSuits()
+  }
+}
+
+function resetAnimations() {
+  showRings.value = false
+  showSines.value = false
+  showSuits.value = false
+}
 function spinForSet() {
   spinForSuit()
   const randomNumber = Math.floor(Math.random() * 100 + 1)
   if (randomNumber <= 60) {
     number.value = getRandomFromArray([2, 3, 4, 5, 6] as Numbers[])
+    showRings.value = false
+    showSines.value = true
+    showSuits.value = false
+    sineAnimation()
+    return
     /*     gsap.to('box') */
   } else if (randomNumber <= 80) {
     number.value = getRandomFromArray([7, 8, 9, 10] as Numbers[])
+    showRings.value = true
+    showSines.value = false
+    showSuits.value = false
+    ringAnimation()
+    return
   } else if (randomNumber <= 100) {
     spinAceOrRoyal()
   }
@@ -46,6 +131,10 @@ function spinAceOrRoyal() {
   } else {
     number.value = 'Ace'
   }
+  showRings.value = false
+  showSines.value = false
+  showSuits.value = true
+  suitAnimation()
 }
 
 function spinForSuit() {

@@ -62,6 +62,11 @@ const router = createRouter({
       component: () => import('../views/CardProfile.vue'),
       meta: { requiresAuth: true },
     },
+    {
+      path: '/gsaptesting',
+      name: 'gsaptesting',
+      component: () => import('../views/GsapTesting.vue'),
+    }
   ],
 })
 
